@@ -1,6 +1,7 @@
 import { Component } from 'react';
-import './App.css';
 import Search from './components/Search/Search';
+
+import './App.css';
 
 interface State {
   items: string[];
