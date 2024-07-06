@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import Search from './components/Search/Search';
 import Error from './components/Error/Error';
+import Loader from './components/Loader/Loader';
 import { getAllPockemons, getPockemon } from './services/api/api';
 
 import './App.css';
@@ -75,7 +76,7 @@ class App extends Component<object, State> {
         </header>
         <main className="main">
           <div className="container">
-            {isLoading && 'Loading...'}
+            {isLoading && <Loader />}
             {error && <Error status={error.status} />}
             {items.length > 0 && 'Pockemons'}
           </div>
