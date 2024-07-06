@@ -3,6 +3,7 @@ import Search from './components/Search/Search';
 import Error from './components/Error/Error';
 import Loader from './components/Loader/Loader';
 import List from './components/List/List';
+import BugButton from './components/ErrorBoundary/BugButton';
 import { Pockemon } from './types/Pockemon';
 import { getAllPockemons, getPockemon } from './services/api/api';
 
@@ -83,6 +84,11 @@ class App extends Component<object, State> {
             {items.length > 0 && <List items={items} />}
           </div>
         </main>
+        <footer className="footer">
+          <div className="container">
+            <BugButton />
+          </div>
+        </footer>
       </>
     );
   }
