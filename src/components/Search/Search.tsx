@@ -25,6 +25,7 @@ class Search extends Component<Props, State> {
 
   componentDidMount(): void {
     const { onSearch } = this.props;
+    const { query } = this.state;
 
     const search = queryStorage.get();
 
@@ -34,7 +35,10 @@ class Search extends Component<Props, State> {
       });
 
       onSearch(search);
+      return;
     }
+
+    onSearch(query);
   }
 
   getSearchResults() {
