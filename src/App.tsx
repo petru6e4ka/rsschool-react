@@ -1,9 +1,15 @@
 import { Component } from 'react';
 import Search from './components/Search/Search';
+import { getAllPockemons, getPockemon } from './services/api/api';
 
 import './App.css';
 
 interface State {
+  isLoading: boolean;
+  error: null | {
+    isError: boolean;
+    status?: string;
+  };
   items: string[];
 }
 
@@ -12,6 +18,8 @@ class App extends Component<object, State> {
     super(props);
 
     this.state = {
+      isLoading: false,
+      error: null,
       items: [],
     };
 
@@ -19,20 +27,44 @@ class App extends Component<object, State> {
   }
 
   getSearchResults(query: string) {
-    this.setState((prev) => ({
-      items: [...prev.items, query],
-    }));
-    // makes a call to an api with the newly provided search term
-    // (search term should not have any trailing spaces, process the input)
-    // to get the results (only first page).
-    // The provided search term should be saved to the LS, if the value exists overwrite it.
+    this.setState({ isLoading: true, error: null, items: [] });
 
-    // makes a call to the selected api
-    // to get the list of the items with the search term from the input (only first page).
-    // If the input is empty make a call to get all the items.
+    if (query) {
+      getPockemon(query).then((data) => {
+        if (data.isError) {
+          this.setState({
+            items: [],
+            error: data,
+            isLoading: false,
+          });
+
+          return;
+        }
+
+        this.setState({ items: [data], error: null, isLoading: false });
+      });
+
+      return;
+    }
+
+    getAllPockemons().then((data) => {
+      if (data.isError) {
+        this.setState({
+          items: [],
+          error: data,
+          isLoading: false,
+        });
+
+        return;
+      }
+
+      this.setState({ items: data.results, error: null, isLoading: false });
+    });
   }
 
   render() {
+    const { isLoading, error, items } = this.state;
+
     return (
       <>
         <header className="header">
@@ -41,7 +73,11 @@ class App extends Component<object, State> {
           </div>
         </header>
         <main className="main">
-          <div className="container" />
+          <div className="container">
+            {isLoading && 'Loading...'}
+            {error && 'Error!'}
+            {items.length > 0 && 'Pockemons'}
+          </div>
         </main>
       </>
     );

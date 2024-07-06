@@ -41,9 +41,10 @@ class Search extends Component<Props, State> {
   getSearchResults() {
     const { onSearch } = this.props;
     const { query } = this.state;
+    const toSearch = query.trim();
 
-    queryStorage.set(query);
-    onSearch(query);
+    queryStorage.set(toSearch);
+    onSearch(toSearch);
   }
 
   updateSearch(event: ChangeEvent<HTMLInputElement>) {
