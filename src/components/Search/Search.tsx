@@ -1,8 +1,7 @@
 import { ChangeEvent, Component } from 'react';
+import { queryStorage } from '../../utils/localStorage/localStorage';
 
 import * as cls from './Search.module.css';
-
-const SEARCH_KEY = 'search-query';
 
 interface State {
   query: string;
@@ -28,7 +27,7 @@ class Search extends Component<Props, State> {
     const { onSearch } = this.props;
     const { query } = this.state;
 
-    const search = localStorage.getItem(SEARCH_KEY);
+    const search = queryStorage.get();
 
     if (search) {
       this.setState({
@@ -43,6 +42,7 @@ class Search extends Component<Props, State> {
     const { onSearch } = this.props;
     const { query } = this.state;
 
+    queryStorage.set(query);
     onSearch(query);
   }
 
