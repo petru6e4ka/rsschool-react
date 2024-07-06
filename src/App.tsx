@@ -2,6 +2,8 @@ import { Component } from 'react';
 import Search from './components/Search/Search';
 import Error from './components/Error/Error';
 import Loader from './components/Loader/Loader';
+import List from './components/List/List';
+import { Pockemon } from './types/Pockemon';
 import { getAllPockemons, getPockemon } from './services/api/api';
 
 import './App.css';
@@ -12,7 +14,7 @@ interface State {
     isError: boolean;
     status?: string;
   };
-  items: string[];
+  items: Pockemon[];
 }
 
 class App extends Component<object, State> {
@@ -78,7 +80,7 @@ class App extends Component<object, State> {
           <div className="container">
             {isLoading && <Loader />}
             {error && <Error status={error.status} />}
-            {items.length > 0 && 'Pockemons'}
+            {items.length > 0 && <List items={items} />}
           </div>
         </main>
       </>

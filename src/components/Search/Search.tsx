@@ -41,7 +41,7 @@ class Search extends Component<Props, State> {
   getSearchResults() {
     const { onSearch } = this.props;
     const { query } = this.state;
-    const toSearch = query.trim();
+    const toSearch = query.trim().toLowerCase();
 
     queryStorage.set(toSearch);
     onSearch(toSearch);
