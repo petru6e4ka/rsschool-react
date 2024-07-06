@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import Search from './components/Search/Search';
-import Error from './components/Error/Error';
+import ErrorNotification from './components/Error/ErrorNotification';
 import Loader from './components/Loader/Loader';
 import List from './components/List/List';
 import BugButton from './components/ErrorBoundary/BugButton';
@@ -80,7 +80,7 @@ class App extends Component<object, State> {
         <main className="main">
           <div className="container">
             {isLoading && <Loader />}
-            {error && <Error status={error.status} />}
+            {error && <ErrorNotification status={error.status} />}
             {items.length > 0 && <List items={items} />}
           </div>
         </main>

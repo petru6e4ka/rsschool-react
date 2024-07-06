@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import * as cls from './Error.module.css';
+import * as cls from './ErrorNotification.module.css';
 
 interface Props {
   status?: string;
@@ -11,7 +11,9 @@ interface State {
   isShowing: boolean;
 }
 
-class Error extends Component<Props, State> {
+class ErrorNotification extends Component<Props, State> {
+  static defaultProps: Partial<Props>;
+
   constructor(props: Props) {
     super(props);
 
@@ -62,8 +64,8 @@ class Error extends Component<Props, State> {
   }
 }
 
-Error.defaultProps = {
+ErrorNotification.defaultProps = {
   status: '',
 };
 
-export default Error;
+export default ErrorNotification;

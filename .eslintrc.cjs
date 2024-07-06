@@ -19,6 +19,7 @@ module.exports = {
 		],
 		'react/react-in-jsx-scope': 0,
 		'react-compiler/react-compiler': 'error',
+		'react/static-property-placement': 0,
 	},
 	parserOptions: {
 		ecmaVersion: 'latest',
