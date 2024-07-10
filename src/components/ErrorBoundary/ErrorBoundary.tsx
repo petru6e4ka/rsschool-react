@@ -22,7 +22,7 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // need to turn off the linter to fulfill task requirements
     // eslint-disable-next-line no-console
-    console.warn(error, errorInfo.componentStack);
+    console.error(error, errorInfo.componentStack);
   }
 
   render() {
