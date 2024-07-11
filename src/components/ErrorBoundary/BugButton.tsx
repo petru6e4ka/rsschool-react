@@ -1,43 +1,23 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 
-interface Props {}
+function BugButton() {
+  const [error, setError] = useState(false);
 
-interface State {
-  error: boolean;
-}
+  const onThrow = () => {
+    setError(true);
+  };
 
-class BugButton extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      error: false,
-    };
-
-    this.onThrow = this.onThrow.bind(this);
-  }
-
-  componentDidUpdate(): void {
-    const { error } = this.state;
-
+  useEffect(() => {
     if (error) {
       throw new Error('TEST ERROR!');
     }
-  }
+  }, [error]);
 
-  onThrow() {
-    this.setState({
-      error: true,
-    });
-  }
-
-  render() {
-    return (
-      <button onClick={this.onThrow} type="button">
-        Bug!
-      </button>
-    );
-  }
+  return (
+    <button onClick={onThrow} type="button">
+      Bug!
+    </button>
+  );
 }
 
 export default BugButton;

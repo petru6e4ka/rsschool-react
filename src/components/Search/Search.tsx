@@ -1,82 +1,62 @@
-import { ChangeEvent, Component } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { queryStorage } from '../../utils/localStorage/localStorage';
 
 import * as cls from './Search.module.css';
-
-interface State {
-  query: string;
-}
 
 interface Props {
   onSearch: (query: string) => void;
 }
 
-class Search extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+function Search({ onSearch }: Props) {
+  const [query, setQuery] = useState('');
 
-    this.state = {
-      query: '',
+  useEffect(() => {
+    const getInitialQuery = () => {
+      const search = queryStorage.get();
+
+      if (search) {
+        setQuery(search);
+        onSearch(search);
+
+        return;
+      }
+
+      onSearch(query);
     };
 
-    this.updateSearch = this.updateSearch.bind(this);
-    this.getSearchResults = this.getSearchResults.bind(this);
-  }
+    getInitialQuery();
+  }, []);
 
-  componentDidMount(): void {
-    const { onSearch } = this.props;
-    const { query } = this.state;
+  const updateSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
 
-    const search = queryStorage.get();
-
-    if (search) {
-      this.setState({
-        query: search,
-      });
-
-      onSearch(search);
-      return;
-    }
-
-    onSearch(query);
-  }
-
-  getSearchResults() {
-    const { onSearch } = this.props;
-    const { query } = this.state;
+  const getSearchResults = () => {
     const toSearch = query.trim().toLowerCase();
 
     queryStorage.set(toSearch);
     onSearch(toSearch);
-  }
+  };
 
-  updateSearch(event: ChangeEvent<HTMLInputElement>) {
-    this.setState({ query: event.target.value });
-  }
-
-  render() {
-    const { query } = this.state;
-
-    return (
-      <div className={cls.Search}>
-        <input
-          className={cls.Search__input}
-          type="text"
-          name="search"
-          id="search"
-          value={query}
-          onChange={this.updateSearch}
-        />
-        <button
-          className={cls.Search__button}
-          type="button"
-          onClick={this.getSearchResults}
-        >
-          Search
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div className={cls.Search}>
+      <input
+        className={cls.Search__input}
+        type="text"
+        name="search"
+        id="search"
+        value={query}
+        onChange={updateSearch}
+      />
+      <button
+        className={cls.Search__button}
+        type="button"
+        onClick={getSearchResults}
+      >
+        Search
+      </button>
+    </div>
+  );
 }
 
 export default Search;

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useCallback, useState } from 'react';
 import Search from './components/Search/Search';
 import ErrorNotification from './components/Error/ErrorNotification';
 import Loader from './components/Loader/Loader';
@@ -12,86 +12,89 @@ import './App.css';
 interface State {
   isLoading: boolean;
   error: null | {
-    isError: boolean;
-    status?: string;
+    message: string;
   };
   items: Pockemon[];
 }
 
-class App extends Component<object, State> {
-  constructor(props: object) {
-    super(props);
+function App() {
+  const [pockemons, setPockemons] = useState<State>({
+    isLoading: false,
+    error: null,
+    items: [],
+  });
 
-    this.state = {
-      isLoading: false,
+  const getSearchResults = useCallback((query: string) => {
+    setPockemons({
+      isLoading: true,
       error: null,
       items: [],
-    };
-
-    this.getSearchResults = this.getSearchResults.bind(this);
-  }
-
-  getSearchResults(query: string) {
-    this.setState({ isLoading: true, error: null, items: [] });
+    });
 
     if (query) {
-      getPockemon(query).then((data) => {
-        if (data.isError) {
-          this.setState({
-            items: [],
-            error: data,
+      getPockemon(query)
+        .then((response) => {
+          setPockemons({
             isLoading: false,
+            error: null,
+            items: [response],
           });
-
-          return;
-        }
-
-        this.setState({ items: [data], error: null, isLoading: false });
-      });
+        })
+        .catch((error) => {
+          setPockemons({
+            isLoading: false,
+            error: {
+              message: error.message,
+            },
+            items: [],
+          });
+        });
 
       return;
     }
 
-    getAllPockemons().then((data) => {
-      if (data.isError) {
-        this.setState({
-          items: [],
-          error: data,
+    getAllPockemons()
+      .then((response) => {
+        setPockemons({
           isLoading: false,
+          error: null,
+          items: response.results,
         });
+      })
+      .catch((error) => {
+        setPockemons({
+          isLoading: false,
+          error: {
+            message: error.message,
+          },
+          items: [],
+        });
+      });
+  }, []);
 
-        return;
-      }
-
-      this.setState({ items: data.results, error: null, isLoading: false });
-    });
-  }
-
-  render() {
-    const { isLoading, error, items } = this.state;
-
-    return (
-      <>
-        <header className="header">
-          <div className="container">
-            <Search onSearch={this.getSearchResults} />
-          </div>
-        </header>
-        <main className="main">
-          <div className="container">
-            {isLoading && <Loader />}
-            {error && <ErrorNotification status={error.status} />}
-            {items.length > 0 && <List items={items} />}
-          </div>
-        </main>
-        <footer className="footer">
-          <div className="container">
-            <BugButton />
-          </div>
-        </footer>
-      </>
-    );
-  }
+  return (
+    <>
+      <header className="header">
+        <div className="container">
+          <Search onSearch={getSearchResults} />
+        </div>
+      </header>
+      <main className="main">
+        <div className="container">
+          {pockemons.isLoading && <Loader />}
+          {pockemons.error && (
+            <ErrorNotification message={pockemons.error.message} />
+          )}
+          {pockemons.items.length > 0 && <List items={pockemons.items} />}
+        </div>
+      </main>
+      <footer className="footer">
+        <div className="container">
+          <BugButton />
+        </div>
+      </footer>
+    </>
+  );
 }
 
 export default App;

@@ -1,71 +1,36 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 
 import * as cls from './ErrorNotification.module.css';
 
 interface Props {
-  status?: string;
+  message?: string;
 }
 
-interface State {
-  timerId: number;
-  isShowing: boolean;
-}
+function ErrorNotification({ message = '' }: Props) {
+  const [isShowing, setIsShowing] = useState(true);
 
-class ErrorNotification extends Component<Props, State> {
-  static defaultProps: Partial<Props>;
-
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      timerId: 0,
-      isShowing: true,
-    };
-
-    this.closeSearch = this.closeSearch.bind(this);
-  }
-
-  componentDidMount(): void {
+  useEffect(() => {
     const timerId = setTimeout(() => {
-      this.setState({
-        isShowing: false,
-      });
+      setIsShowing(false);
     }, 3000);
 
-    this.setState({ timerId });
-  }
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, []);
 
-  componentWillUnmount(): void {
-    const { timerId } = this.state;
+  const closeSearch = () => {
+    setIsShowing(false);
+  };
 
-    clearTimeout(timerId);
-  }
-
-  closeSearch() {
-    this.setState({ isShowing: false });
-  }
-
-  render() {
-    const { isShowing } = this.state;
-    const { status } = this.props;
-
-    return isShowing ? (
-      <div className={cls.Error__container}>
-        <h3>{status ? `Error: ${status}` : 'Something went wrong!'}</h3>
-        <button
-          className={cls.Error__btn}
-          type="button"
-          onClick={this.closeSearch}
-        >
-          +
-        </button>
-      </div>
-    ) : null;
-  }
+  return isShowing ? (
+    <div className={cls.Error__container}>
+      <h3>{message ? `Error: ${message}` : 'Something went wrong!'}</h3>
+      <button className={cls.Error__btn} type="button" onClick={closeSearch}>
+        +
+      </button>
+    </div>
+  ) : null;
 }
-
-ErrorNotification.defaultProps = {
-  status: '',
-};
 
 export default ErrorNotification;

@@ -1,10 +1,13 @@
+import { Pockemon } from '../../types/Pockemon';
+
 const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
+const ERROR_MESSAGE = 'Request failed';
 
 enum Methods {
   GET = 'GET',
 }
 
-const toFetch = async ({
+const toFetch = async <T>({
   url = '',
   baseUrl = API_URL,
   headers = {},
@@ -14,7 +17,7 @@ const toFetch = async ({
   baseUrl?: string;
   headers?: Record<string, string>;
   method?: Methods;
-}) => {
+}): Promise<T> => {
   try {
     const response = await fetch(baseUrl + url, {
       headers: {
@@ -30,18 +33,13 @@ const toFetch = async ({
       return data;
     }
 
-    return {
-      isError: true,
-      status: response.status,
-    };
+    throw new Error(ERROR_MESSAGE);
   } catch (error) {
-    return {
-      isError: true,
-    };
+    throw new Error(ERROR_MESSAGE);
   }
 };
 
-const getAllPockemons = () => toFetch({});
-const getPockemon = (query: string) => toFetch({ url: query });
+const getAllPockemons = () => toFetch<{ results: Pockemon[] }>({});
+const getPockemon = (query: string) => toFetch<Pockemon>({ url: query });
 
 export { getAllPockemons, getPockemon };
