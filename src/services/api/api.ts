@@ -3,6 +3,10 @@ import { Pockemon } from '../../types/Pockemon';
 const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
 const ERROR_MESSAGE = 'Request failed';
 
+export const DEFAULT_SKIP = 0;
+export const DEFAULT_LIMIT = 21;
+export const TOTAL = 1302;
+
 enum Methods {
   GET = 'GET',
 }
@@ -49,7 +53,11 @@ const toFetch = async <T>({
   }
 };
 
-const getAllPockemons = () => toFetch<{ results: Pockemon[] }>({});
+type DefaultParams = { skip?: number; limit?: number };
+
+const getAllPockemons = (params: DefaultParams = {}) => toFetch<{ results: Pockemon[] }>({
+  url: `?offset=${params.skip || DEFAULT_SKIP}&limit=${params.limit || DEFAULT_LIMIT}`,
+});
 const getPockemon = (query: string) => toFetch<Pockemon>({ url: query });
 
 export { getAllPockemons, getPockemon };

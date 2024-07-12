@@ -1,9 +1,15 @@
 import { useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ErrorNotification from '../../components/Error/ErrorNotification';
 import Search from '../../components/Search/Search';
 import List from '../../components/List/List';
 import Loader from '../../components/Loader/Loader';
-import { getPockemon, getAllPockemons } from '../../services/api/api';
+import Pagination from '../../components/Pagination/Pagination';
+import {
+  getPockemon,
+  getAllPockemons,
+  DEFAULT_LIMIT,
+} from '../../services/api/api';
 import { Pockemon } from '../../types/Pockemon';
 
 import * as cls from './Home.module.css';
@@ -22,6 +28,8 @@ function Home() {
     error: null,
     items: [],
   });
+  const [, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const getSearchResults = useCallback((query: string) => {
     setPockemons({
@@ -31,6 +39,7 @@ function Home() {
     });
 
     if (query) {
+      setSearchParams(`query=${query}`);
       getPockemon(query)
         .then((response) => {
           setPockemons({
@@ -52,6 +61,7 @@ function Home() {
       return;
     }
 
+    setSearchParams('');
     getAllPockemons()
       .then((response) => {
         setPockemons({
@@ -71,6 +81,38 @@ function Home() {
       });
   }, []);
 
+  const changePage = (newPage: number) => {
+    setCurrentPage(newPage);
+    setSearchParams(`page=${newPage}`);
+
+    setPockemons({
+      isLoading: true,
+      error: null,
+      items: [],
+    });
+
+    getAllPockemons({ skip: (newPage - 1) * DEFAULT_LIMIT })
+      .then((response) => {
+        setPockemons({
+          isLoading: false,
+          error: null,
+          items: response.results,
+        });
+      })
+      .catch((error) => {
+        setPockemons({
+          isLoading: false,
+          error: {
+            message: error.message,
+          },
+          items: [],
+        });
+      });
+  };
+
+  const isListShowing = !pockemons.isLoading && !pockemons.error && pockemons.items.length > 0;
+  const isPaginateShowing = !pockemons.isLoading && !pockemons.error && pockemons.items.length > 1;
+
   return (
     <>
       <header className={cls.Header}>
@@ -84,7 +126,12 @@ function Home() {
           {pockemons.error && (
             <ErrorNotification message={pockemons.error.message} />
           )}
-          {pockemons.items.length > 0 && <List items={pockemons.items} />}
+          {isListShowing && <List items={pockemons.items} />}
+        </div>
+        <div className="container">
+          {isPaginateShowing && (
+            <Pagination currentPage={currentPage} onChange={changePage} />
+          )}
         </div>
       </main>
     </>
