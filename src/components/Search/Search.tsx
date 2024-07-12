@@ -1,7 +1,9 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { queryStorage } from '../../utils/localStorage/localStorage';
+import { ChangeEvent, useState } from 'react';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 import * as cls from './Search.module.css';
+
+export const SEARCH_KEY = 'search-query';
 
 interface Props {
   onSearch: (query: string) => void;
@@ -10,22 +12,16 @@ interface Props {
 function Search({ onSearch }: Props) {
   const [query, setQuery] = useState('');
 
-  useEffect(() => {
-    const getInitialQuery = () => {
-      const search = queryStorage.get();
+  const setInitialQuery = (val: string) => {
+    setQuery(val);
+    onSearch(val);
+  };
 
-      if (search) {
-        setQuery(search);
-        onSearch(search);
-
-        return;
-      }
-
-      onSearch(query);
-    };
-
-    getInitialQuery();
-  }, []);
+  const [setToLocalStorage] = useLocalStorage<string>({
+    key: SEARCH_KEY,
+    initialValue: '',
+    onSuccess: setInitialQuery,
+  });
 
   const updateSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
@@ -34,7 +30,7 @@ function Search({ onSearch }: Props) {
   const getSearchResults = () => {
     const toSearch = query.trim().toLowerCase();
 
-    queryStorage.set(toSearch);
+    setToLocalStorage(toSearch);
     onSearch(toSearch);
   };
 

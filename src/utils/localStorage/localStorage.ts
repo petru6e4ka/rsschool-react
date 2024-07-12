@@ -1,5 +1,3 @@
-export const SEARCH_KEY = 'search-query';
-
 const ls = (key: string) => ({
   get: () => {
     const value = window.localStorage.getItem(key);
@@ -17,4 +15,4 @@ const ls = (key: string) => ({
   },
 });
 
-export const queryStorage = ls(SEARCH_KEY);
+export default ls;
