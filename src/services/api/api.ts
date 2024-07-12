@@ -33,8 +33,18 @@ const toFetch = async <T>({
       return data;
     }
 
-    throw new Error(ERROR_MESSAGE);
+    const message = response.status
+      ? `${ERROR_MESSAGE}: ${response.status}`
+      : '';
+
+    throw new Error(message);
   } catch (error) {
+    const err = error as unknown as { message: string };
+
+    if (err.message.includes(ERROR_MESSAGE)) {
+      throw new Error(err.message);
+    }
+
     throw new Error(ERROR_MESSAGE);
   }
 };
