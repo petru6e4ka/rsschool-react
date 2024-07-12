@@ -63,7 +63,8 @@ function Home() {
       return;
     }
 
-    setSearchParams('');
+    setSearchParams({});
+    setCurrentPage(1);
     getAllPockemons()
       .then((response) => {
         setPockemons({
