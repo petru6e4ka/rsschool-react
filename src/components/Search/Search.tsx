@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
 import * as cls from './Search.module.css';
@@ -11,10 +12,18 @@ interface Props {
 
 function Search({ onSearch }: Props) {
   const [query, setQuery] = useState('');
+  const [, setSearchParams] = useSearchParams();
 
   const setInitialQuery = (val: string) => {
     setQuery(val);
     onSearch(val);
+
+    if (val) {
+      setSearchParams(`query=${val}`);
+      return;
+    }
+
+    setSearchParams('');
   };
 
   const [setToLocalStorage] = useLocalStorage<string>({
@@ -44,11 +53,7 @@ function Search({ onSearch }: Props) {
         value={query}
         onChange={updateSearch}
       />
-      <button
-        className={cls.Search__button}
-        type="button"
-        onClick={getSearchResults}
-      >
+      <button type="button" onClick={getSearchResults}>
         Search
       </button>
     </div>
