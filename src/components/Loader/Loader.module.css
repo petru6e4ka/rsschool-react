@@ -1,6 +1,7 @@
 .Loader {
   width: 48px;
   height: 48px;
+  margin: 50px auto;
   border-radius: 50%;
   position: relative;
   animation: rotate 1s linear infinite;
