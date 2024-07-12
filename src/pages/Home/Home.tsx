@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ErrorNotification from '../../components/Error/ErrorNotification';
 import Search from '../../components/Search/Search';
@@ -28,7 +28,7 @@ function Home() {
     error: null,
     items: [],
   });
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
 
   const getSearchResults = useCallback((query: string) => {
@@ -39,7 +39,9 @@ function Home() {
     });
 
     if (query) {
-      setSearchParams(`query=${query}`);
+      setSearchParams({
+        query,
+      });
       getPockemon(query)
         .then((response) => {
           setPockemons({
@@ -83,7 +85,9 @@ function Home() {
 
   const changePage = (newPage: number) => {
     setCurrentPage(newPage);
-    setSearchParams(`page=${newPage}`);
+    setSearchParams({
+      page: String(newPage),
+    });
 
     setPockemons({
       isLoading: true,
@@ -109,6 +113,14 @@ function Home() {
         });
       });
   };
+
+  useEffect(() => {
+    const page = searchParams.get('page');
+
+    if (page) {
+      changePage(Number(page));
+    }
+  }, []);
 
   const isListShowing = !pockemons.isLoading && !pockemons.error && pockemons.items.length > 0;
   const isPaginateShowing = !pockemons.isLoading && !pockemons.error && pockemons.items.length > 1;

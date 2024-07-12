@@ -19,11 +19,11 @@ function Search({ onSearch }: Props) {
     onSearch(val);
 
     if (val) {
-      setSearchParams(`query=${val}`);
+      setSearchParams({ query: val });
       return;
     }
 
-    setSearchParams('');
+    setSearchParams({});
   };
 
   const [setToLocalStorage] = useLocalStorage<string>({
