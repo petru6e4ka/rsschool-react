@@ -1,7 +1,7 @@
 .List {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px 15px;
   margin: 0;
   padding: 0;
@@ -9,6 +9,8 @@
 }
 
 .List__item {
+  padding: 0 0 20px;
   list-style: none;
   text-align: center;
+  border: 1px solid #000;
 }

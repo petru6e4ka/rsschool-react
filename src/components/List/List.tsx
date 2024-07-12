@@ -12,6 +12,7 @@ function List({ items }: ListProps) {
       {items.map((item) => (
         <li className={cls.List__item} key={item.name}>
           <p>{item.name}</p>
+          <button type="button">Learn more</button>
         </li>
       ))}
     </ul>
