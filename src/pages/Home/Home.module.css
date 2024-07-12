@@ -1,0 +1,13 @@
+.Header {
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 10px #000;
+}
+
+.Main {
+  padding: 50px 0;
+  min-height: calc(100vh - 100px - 50px);
+}
