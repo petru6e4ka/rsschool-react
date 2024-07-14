@@ -1,4 +1,5 @@
 import { Pockemon } from '../../types/Pockemon';
+import ListItem from './ListItem';
 
 import * as cls from './List.module.css';
 
@@ -10,10 +11,7 @@ function List({ items }: ListProps) {
   return (
     <ul className={cls.List}>
       {items.map((item) => (
-        <li className={cls.List__item} key={item.name}>
-          <p>{item.name}</p>
-          <button type="button">Learn more</button>
-        </li>
+        <ListItem item={item} key={item.name} />
       ))}
     </ul>
   );

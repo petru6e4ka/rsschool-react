@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom';
 import { DEFAULT_LIMIT, TOTAL } from '../../services/api/api';
 
 import * as cls from './Pagination.module.css';
@@ -5,8 +6,6 @@ import * as cls from './Pagination.module.css';
 type Props = {
   total?: number;
   perPage?: number;
-  currentPage?: number;
-  onChange: (page: number) => void;
 };
 
 const getArray = (current: number, totalQty: number) => {
@@ -31,17 +30,17 @@ const getArray = (current: number, totalQty: number) => {
   return arr;
 };
 
-function Pagination({
-  total = TOTAL,
-  perPage = DEFAULT_LIMIT,
-  currentPage = 1,
-  onChange,
-}: Props) {
+function Pagination({ total = TOTAL, perPage = DEFAULT_LIMIT }: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const pagesQuantity = Math.ceil(total / perPage);
+  const currentPage = Number(searchParams.get('page')) || 1;
 
   const changePage = (page: number) => {
+    const allParams = Object.fromEntries(searchParams.entries());
+
     if (page !== currentPage) {
-      onChange(page);
+      setSearchParams({ ...allParams, page: String(page) });
     }
   };
 

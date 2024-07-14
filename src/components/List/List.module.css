@@ -4,13 +4,6 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 10px 15px;
   margin: 0;
-  padding: 0;
+  padding: 50px 0;
   text-transform: capitalize;
-}
-
-.List__item {
-  padding: 0 0 20px;
-  list-style: none;
-  text-align: center;
-  border: 1px solid #000;
 }

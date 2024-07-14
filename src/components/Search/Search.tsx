@@ -6,24 +6,22 @@ import * as cls from './Search.module.css';
 
 export const SEARCH_KEY = 'search-query';
 
-interface Props {
-  onSearch: (query: string) => void;
-}
-
-function Search({ onSearch }: Props) {
+function Search() {
   const [query, setQuery] = useState('');
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const setInitialQuery = (val: string) => {
     setQuery(val);
-    onSearch(val);
 
     if (val) {
       setSearchParams({ query: val });
       return;
     }
 
-    setSearchParams({});
+    const allParams = Object.fromEntries(searchParams.entries());
+    const { query: q, ...rest } = allParams;
+
+    setSearchParams(rest);
   };
 
   const [setToLocalStorage] = useLocalStorage<string>({
@@ -40,7 +38,13 @@ function Search({ onSearch }: Props) {
     const toSearch = query.trim().toLowerCase();
 
     setToLocalStorage(toSearch);
-    onSearch(toSearch);
+
+    if (toSearch) {
+      setSearchParams({ query: toSearch });
+      return;
+    }
+
+    setSearchParams({});
   };
 
   return (

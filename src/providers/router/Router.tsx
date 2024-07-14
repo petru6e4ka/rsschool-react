@@ -1,20 +1,8 @@
-import { Route, Routes } from 'react-router-dom';
-import { Suspense } from 'react';
-import { routeConfig } from '../../configs/router/router';
-import Loader from '../../components/Loader/Loader';
+import { useRoutes } from 'react-router-dom';
+import { routes } from '../../configs/router/router';
 
 function Router() {
-  return (
-    <Routes>
-      {Object.values(routeConfig).map(({ element, path }) => (
-        <Route
-          key={path}
-          element={<Suspense fallback={<Loader />}>{element}</Suspense>}
-          path={path}
-        />
-      ))}
-    </Routes>
-  );
+  return useRoutes(routes);
 }
 
 export default Router;

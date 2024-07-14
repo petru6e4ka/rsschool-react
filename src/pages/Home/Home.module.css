@@ -8,6 +8,20 @@
 }
 
 .Main {
-  padding: 50px 0;
   min-height: calc(100vh - 100px - 70px);
+}
+
+.Pockemon {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.Pockemon__main {
+  flex: 1;
+}
+
+.Pockemon__aside {
+  height: 100%;
+  max-width: 300px;
 }

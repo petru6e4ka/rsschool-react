@@ -1,5 +1,7 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import {
+  useState, useCallback, useEffect, Suspense,
+} from 'react';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import ErrorNotification from '../../components/Error/ErrorNotification';
 import Search from '../../components/Search/Search';
 import List from '../../components/List/List';
@@ -28,8 +30,7 @@ function Home() {
     error: null,
     items: [],
   });
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams] = useSearchParams();
 
   const getSearchResults = useCallback((query: string) => {
     setPockemons({
@@ -39,9 +40,6 @@ function Home() {
     });
 
     if (query) {
-      setSearchParams({
-        query,
-      });
       getPockemon(query)
         .then((response) => {
           setPockemons({
@@ -63,8 +61,6 @@ function Home() {
       return;
     }
 
-    setSearchParams({});
-    setCurrentPage(1);
     getAllPockemons()
       .then((response) => {
         setPockemons({
@@ -85,11 +81,6 @@ function Home() {
   }, []);
 
   const changePage = (newPage: number) => {
-    setCurrentPage(newPage);
-    setSearchParams({
-      page: String(newPage),
-    });
-
     setPockemons({
       isLoading: true,
       error: null,
@@ -115,13 +106,16 @@ function Home() {
       });
   };
 
-  useEffect(() => {
-    const page = searchParams.get('page');
+  const page = searchParams.get('page');
+  const query = searchParams.get('query') || '';
 
-    if (page) {
-      changePage(Number(page));
-    }
-  }, []);
+  useEffect(() => {
+    changePage(Number(page));
+  }, [page]);
+
+  useEffect(() => {
+    getSearchResults(query);
+  }, [query]);
 
   const isListShowing = !pockemons.isLoading && !pockemons.error && pockemons.items.length > 0;
   const isPaginateShowing = !pockemons.isLoading && !pockemons.error && pockemons.items.length > 1;
@@ -130,7 +124,7 @@ function Home() {
     <>
       <header className={cls.Header}>
         <div className="container">
-          <Search onSearch={getSearchResults} />
+          <Search />
         </div>
       </header>
       <main className={cls.Main}>
@@ -139,13 +133,20 @@ function Home() {
           {pockemons.error && (
             <ErrorNotification message={pockemons.error.message} />
           )}
-          {isListShowing && <List items={pockemons.items} />}
-        </div>
-        <div className="container">
-          {isPaginateShowing && (
-            <Pagination currentPage={currentPage} onChange={changePage} />
+          {isListShowing && (
+            <div className={cls.Pockemon}>
+              <div className={cls.Pockemon__main}>
+                <List items={pockemons.items} />
+              </div>
+              <aside className={cls.Pockemon__aside}>
+                <Suspense fallback={<Loader />}>
+                  <Outlet />
+                </Suspense>
+              </aside>
+            </div>
           )}
         </div>
+        <div className="container">{isPaginateShowing && <Pagination />}</div>
       </main>
     </>
   );
