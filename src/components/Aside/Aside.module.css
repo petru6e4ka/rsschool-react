@@ -1,0 +1,30 @@
+.Aside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 30px 50px 100px;
+  width: 400px;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.Aside__info {
+  margin: 0;
+}
+
+.Aside__close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40px;
+  height: 40px;
+  padding: 0px 0 3px 0;
+
+  transform: rotate(45deg);
+  background: transparent;
+  border-radius: 50%;
+}

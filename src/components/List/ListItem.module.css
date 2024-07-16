@@ -1,0 +1,6 @@
+.List__item {
+  padding: 0 0 20px;
+  list-style: none;
+  text-align: center;
+  border: 1px solid #000;
+}

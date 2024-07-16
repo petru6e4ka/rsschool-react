@@ -1,0 +1,97 @@
+import { useSearchParams } from 'react-router-dom';
+import { DEFAULT_LIMIT, TOTAL } from '../../services/api/api';
+
+import * as cls from './Pagination.module.css';
+
+type Props = {
+  total?: number;
+  perPage?: number;
+};
+
+const getArray = (current: number, totalQty: number) => {
+  const arr = [];
+  const NOT_ENOUGH = 2;
+  const FIRST = 1;
+
+  for (let i = 1; i <= totalQty; i += 1) {
+    if (i >= current - 1 && i <= current + 1) {
+      arr.push(i);
+    }
+  }
+
+  if (arr.length === NOT_ENOUGH && arr[0] === FIRST) {
+    arr.push(3);
+  }
+
+  if (arr.length === NOT_ENOUGH && arr[0] !== FIRST) {
+    arr.unshift(totalQty - 2);
+  }
+
+  return arr;
+};
+
+function Pagination({ total = TOTAL, perPage = DEFAULT_LIMIT }: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const pagesQuantity = Math.ceil(total / perPage);
+  const currentPage = Number(searchParams.get('page')) || 1;
+
+  const changePage = (page: number) => {
+    const allParams = Object.fromEntries(searchParams.entries());
+
+    if (page !== currentPage) {
+      setSearchParams({ ...allParams, page: String(page) });
+    }
+  };
+
+  const buttons = getArray(currentPage, pagesQuantity);
+
+  return (
+    <div className={cls.Pagination} data-testid="pagination">
+      <ol className={cls.Pagination__list}>
+        {buttons[0] !== 1 && (
+          <>
+            <li className={cls.Pagination__item} key={1}>
+              <button
+                onClick={() => changePage(1)}
+                type="button"
+                data-testid="pagination-btn"
+              >
+                1
+              </button>
+            </li>
+            <li className={cls.Pagination__empty}>...</li>
+          </>
+        )}
+        {buttons.map((el: number) => (
+          <li className={cls.Pagination__item} key={el}>
+            <button
+              className={currentPage === el ? cls.Pagination__active : ''}
+              onClick={() => changePage(el)}
+              type="button"
+              data-testid="pagination-btn"
+            >
+              {el}
+            </button>
+          </li>
+        ))}
+        {buttons[buttons.length - 1] !== pagesQuantity && (
+          <>
+            <li className={cls.Pagination__empty}>...</li>
+            <li className={cls.Pagination__item} key={pagesQuantity}>
+              <button
+                onClick={() => changePage(pagesQuantity)}
+                type="button"
+                data-testid="pagination-btn"
+              >
+                {pagesQuantity}
+              </button>
+            </li>
+          </>
+        )}
+      </ol>
+    </div>
+  );
+}
+
+export default Pagination;
