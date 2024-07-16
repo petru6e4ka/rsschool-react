@@ -15,9 +15,14 @@ function ListItem({ item }: ListItemProps) {
   const pockemonId = parts[parts.length - 1] || item.id;
 
   return (
-    <li className={cls.List__item} key={item.name}>
+    <li className={cls.List__item} key={item.name} data-testid="list-item">
       <p>{item.name}</p>
-      <Link to={`/pockemon/${pockemonId}${location.search}`}>Learn more</Link>
+      <Link
+        to={`/pockemon/${pockemonId}${location.search}`}
+        data-testid="open-detailed_card"
+      >
+        Learn more
+      </Link>
     </li>
   );
 }

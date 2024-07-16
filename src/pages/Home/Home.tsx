@@ -127,7 +127,7 @@ function Home() {
           <Search />
         </div>
       </header>
-      <main className={cls.Main}>
+      <main className={cls.Main} data-testid="main">
         <div className="container">
           {pockemons.isLoading && <Loader />}
           {pockemons.error && (

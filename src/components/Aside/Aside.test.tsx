@@ -9,33 +9,12 @@ import {
 import { vi } from 'vitest';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import Aside from './Aside';
+import mocks from '../../utils/tests/mocks';
 
 const route = '/pockemon/1';
-const mockResponse = {
-  abilities: [
-    {
-      ability: {
-        name: 'overgrow',
-      },
-    },
-    {
-      ability: {
-        name: 'chlorophyll',
-      },
-    },
-  ],
-  height: 7,
-  weight: 69,
-  id: 1,
-  name: 'bulbasaur',
-  sprites: {
-    front_default:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
-  },
-};
 
 beforeEach(() => {
-  const okResponse = new Response(JSON.stringify(mockResponse), {
+  const okResponse = new Response(JSON.stringify(mocks.onePockemon), {
     status: 200,
     statusText: 'OK',
   });
@@ -91,20 +70,24 @@ describe('Aside', () => {
     });
 
     expect(
-      screen.getByText(new RegExp(`Name:\\+*${mockResponse.name}`, 'i')),
+      screen.getByText(new RegExp(`Name:\\+*${mocks.onePockemon.name}`, 'i')),
     ).toBeInTheDocument();
-    expect(screen.getByAltText(mockResponse.name)).toBeInTheDocument();
+    expect(screen.getByAltText(mocks.onePockemon.name)).toBeInTheDocument();
     expect(
-      screen.getByText(mockResponse.abilities[0].ability.name),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(mockResponse.abilities[1].ability.name),
+      screen.getByText(mocks.onePockemon.abilities[0].ability.name),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(new RegExp(`Height:\\+*${mockResponse.height}`, 'i')),
+      screen.getByText(mocks.onePockemon.abilities[1].ability.name),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(new RegExp(`Weight:\\+*${mockResponse.weight}`, 'i')),
+      screen.getByText(
+        new RegExp(`Height:\\+*${mocks.onePockemon.height}`, 'i'),
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        new RegExp(`Weight:\\+*${mocks.onePockemon.weight}`, 'i'),
+      ),
     ).toBeInTheDocument();
   });
 

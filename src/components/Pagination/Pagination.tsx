@@ -47,12 +47,16 @@ function Pagination({ total = TOTAL, perPage = DEFAULT_LIMIT }: Props) {
   const buttons = getArray(currentPage, pagesQuantity);
 
   return (
-    <div className={cls.Pagination}>
+    <div className={cls.Pagination} data-testid="pagination">
       <ol className={cls.Pagination__list}>
         {buttons[0] !== 1 && (
           <>
             <li className={cls.Pagination__item} key={1}>
-              <button onClick={() => changePage(1)} type="button">
+              <button
+                onClick={() => changePage(1)}
+                type="button"
+                data-testid="pagination-btn"
+              >
                 1
               </button>
             </li>
@@ -65,6 +69,7 @@ function Pagination({ total = TOTAL, perPage = DEFAULT_LIMIT }: Props) {
               className={currentPage === el ? cls.Pagination__active : ''}
               onClick={() => changePage(el)}
               type="button"
+              data-testid="pagination-btn"
             >
               {el}
             </button>
@@ -74,7 +79,11 @@ function Pagination({ total = TOTAL, perPage = DEFAULT_LIMIT }: Props) {
           <>
             <li className={cls.Pagination__empty}>...</li>
             <li className={cls.Pagination__item} key={pagesQuantity}>
-              <button onClick={() => changePage(pagesQuantity)} type="button">
+              <button
+                onClick={() => changePage(pagesQuantity)}
+                type="button"
+                data-testid="pagination-btn"
+              >
                 {pagesQuantity}
               </button>
             </li>
