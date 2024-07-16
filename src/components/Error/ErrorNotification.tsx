@@ -24,7 +24,7 @@ function ErrorNotification({ message = '' }: Props) {
   };
 
   return isShowing ? (
-    <div className={cls.Error__container}>
+    <div className={cls.Error__container} data-testid="error-notification">
       <h3>{message ? `Error! ${message}` : 'Something went wrong!'}</h3>
       <button className={cls.Error__btn} type="button" onClick={closeSearch}>
         +

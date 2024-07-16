@@ -112,4 +112,25 @@ describe('Aside', () => {
 
     expect(aside).not.toBeInTheDocument();
   });
+
+  it('Shows error notification on rejected responce', async () => {
+    const rejectResponce = new Response(null, {
+      status: 404,
+      statusText: 'something happend',
+    });
+
+    global.fetch = vi.fn().mockResolvedValue(rejectResponce);
+
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={[route]}>
+          <Routes>
+            <Route path="pockemon/:pockemon" element={<Aside />} />
+          </Routes>
+        </MemoryRouter>,
+      );
+    });
+
+    expect(screen.getByTestId('error-notification')).toBeInTheDocument();
+  });
 });

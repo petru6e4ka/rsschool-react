@@ -9,7 +9,7 @@ function NotFound() {
   };
 
   return (
-    <div className={cls.NotFound}>
+    <div className={cls.NotFound} data-testid="not-found-page">
       <h1>The page is not found</h1>
       <p>Oops, you can go back</p>
       <button type="button" onClick={goBack}>
