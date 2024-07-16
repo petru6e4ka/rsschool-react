@@ -8,8 +8,12 @@ interface ListProps {
 }
 
 function List({ items }: ListProps) {
+  if (items.length === 0) {
+    return <p data-testid="no-cards">The pockemons list is empty</p>;
+  }
+
   return (
-    <ul className={cls.List}>
+    <ul className={cls.List} data-testid="list">
       {items.map((item) => (
         <ListItem item={item} key={item.name} />
       ))}

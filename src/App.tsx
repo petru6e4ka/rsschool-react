@@ -7,7 +7,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="wrapper">
+    <div className="wrapper" data-testid="app">
       <Suspense fallback={<Loader />}>
         <AppRouter />
       </Suspense>

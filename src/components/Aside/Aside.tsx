@@ -83,11 +83,12 @@ function Aside() {
   }, [asideRef, onClickOutside]);
 
   return (
-    <div className={cls.Aside} ref={asideRef}>
+    <div className={cls.Aside} ref={asideRef} data-testid="aside">
       <button
         className={cls.Aside__close}
         onClick={onClickOutside}
         type="button"
+        data-testid="close-detailed-card"
       >
         +
       </button>
@@ -96,7 +97,7 @@ function Aside() {
         <ErrorNotification message={pockemonInfo.error.message} />
       )}
       {pockemonInfo.info && (
-        <>
+        <div data-testid="pockemon-info">
           <h2 className={cls.Aside__info}>
             Name:
             <br />
@@ -125,7 +126,7 @@ function Aside() {
             <br />
             {pockemonInfo.info.weight}
           </p>
-        </>
+        </div>
       )}
     </div>
   );
