@@ -48,7 +48,7 @@ function Search() {
   };
 
   return (
-    <div className={cls.Search}>
+    <div className={cls.Search} data-testid="search">
       <input
         className={cls.Search__input}
         type="text"
@@ -56,8 +56,9 @@ function Search() {
         id="search"
         value={query}
         onChange={updateSearch}
+        data-testid="search-input"
       />
-      <button type="button" onClick={getSearchResults}>
+      <button type="button" onClick={getSearchResults} data-testid="search-btn">
         Search
       </button>
     </div>
