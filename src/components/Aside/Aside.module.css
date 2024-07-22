@@ -2,10 +2,12 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 50px 30px 50px 100px;
+  margin-top: 50px;
+  padding: 30px;
   width: 400px;
   align-items: flex-start;
   gap: 20px;
+  background-color: var(--bg);
 }
 
 .Aside__info {
@@ -15,7 +17,7 @@
 .Aside__close {
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 30px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -27,4 +29,13 @@
   transform: rotate(45deg);
   background: transparent;
   border-radius: 50%;
+}
+
+.Backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
 }

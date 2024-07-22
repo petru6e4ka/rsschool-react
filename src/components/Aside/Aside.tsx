@@ -83,52 +83,55 @@ function Aside() {
   }, [asideRef, onClickOutside]);
 
   return (
-    <div className={cls.Aside} ref={asideRef} data-testid="aside">
-      <button
-        className={cls.Aside__close}
-        onClick={onClickOutside}
-        type="button"
-        data-testid="close-detailed-card"
-      >
-        +
-      </button>
-      {pockemonInfo.isLoading && <Loader />}
-      {pockemonInfo.error && (
-        <ErrorNotification message={pockemonInfo.error.message} />
-      )}
-      {pockemonInfo.info && (
-        <div data-testid="pockemon-info">
-          <h2 className={cls.Aside__info}>
-            Name:
-            <br />
-            {pockemonInfo.info.name.toUpperCase()}
-          </h2>
-          <img
-            src={pockemonInfo.info.sprites?.front_default}
-            alt={pockemonInfo.info.name}
-          />
-          <div>
-            Abilities:
-            <br />
-            <ul>
-              {pockemonInfo.info.abilities?.map((ability) => (
-                <li key={ability.ability.name}>{ability.ability.name}</li>
-              ))}
-            </ul>
+    <>
+      <div className={cls.Backdrop} />
+      <div className={cls.Aside} ref={asideRef} data-testid="aside">
+        <button
+          className={cls.Aside__close}
+          onClick={onClickOutside}
+          type="button"
+          data-testid="close-detailed-card"
+        >
+          +
+        </button>
+        {pockemonInfo.isLoading && <Loader />}
+        {pockemonInfo.error && (
+          <ErrorNotification message={pockemonInfo.error.message} />
+        )}
+        {pockemonInfo.info && (
+          <div data-testid="pockemon-info">
+            <h2 className={cls.Aside__info}>
+              Name:
+              <br />
+              {pockemonInfo.info.name.toUpperCase()}
+            </h2>
+            <img
+              src={pockemonInfo.info.sprites?.front_default}
+              alt={pockemonInfo.info.name}
+            />
+            <div>
+              Abilities:
+              <br />
+              <ul>
+                {pockemonInfo.info.abilities?.map((ability) => (
+                  <li key={ability.ability.name}>{ability.ability.name}</li>
+                ))}
+              </ul>
+            </div>
+            <p className={cls.Aside__info}>
+              Height:
+              <br />
+              {pockemonInfo.info.height}
+            </p>
+            <p className={cls.Aside__info}>
+              Weight:
+              <br />
+              {pockemonInfo.info.weight}
+            </p>
           </div>
-          <p className={cls.Aside__info}>
-            Height:
-            <br />
-            {pockemonInfo.info.height}
-          </p>
-          <p className={cls.Aside__info}>
-            Weight:
-            <br />
-            {pockemonInfo.info.weight}
-          </p>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 

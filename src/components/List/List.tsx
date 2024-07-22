@@ -1,3 +1,5 @@
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Pockemon } from '../../types/Pockemon';
 import ListItem from './ListItem';
 
@@ -8,12 +10,22 @@ interface ListProps {
 }
 
 function List({ items }: ListProps) {
+  const { pockemon } = useParams();
+  const [isPartWidth, setIsPartWidth] = useState(!!pockemon);
+
+  useEffect(() => {
+    setIsPartWidth(!!pockemon);
+  }, [pockemon]);
+
   if (items.length === 0) {
     return <p data-testid="no-cards">The pockemons list is empty</p>;
   }
 
   return (
-    <ul className={cls.List} data-testid="list">
+    <ul
+      className={`${cls.List} ${isPartWidth ? cls.ListPart : cls.ListFull}`}
+      data-testid="list"
+    >
       {items.map((item) => (
         <ListItem item={item} key={item.name} />
       ))}
