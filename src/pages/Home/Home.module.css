@@ -7,6 +7,11 @@
   box-shadow: 0px 0px 10px #000;
 }
 
+.Search {
+  flex: 1;
+  justify-content: center;
+}
+
 .Main {
   min-height: calc(100vh - 100px - 70px);
 }

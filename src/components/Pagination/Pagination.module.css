@@ -25,5 +25,5 @@
 }
 
 .Pagination__active {
-  background-color: #535bf2;
+  background-color: var(--accent);
 }

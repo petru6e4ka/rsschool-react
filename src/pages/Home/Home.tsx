@@ -13,6 +13,7 @@ import {
   DEFAULT_LIMIT,
 } from '../../services/api/api';
 import { Pockemon } from '../../types/Pockemon';
+import ThemeSwitcher from '../../providers/theme/ThemeSwitcher/ThemeSwitcher';
 
 import * as cls from './Home.module.css';
 
@@ -124,7 +125,8 @@ function Home() {
     <>
       <header className={cls.Header}>
         <div className="container">
-          <Search />
+          <Search className={cls.Search} />
+          <ThemeSwitcher />
         </div>
       </header>
       <main className={cls.Main} data-testid="main">

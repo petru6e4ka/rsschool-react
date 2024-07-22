@@ -6,7 +6,7 @@ import * as cls from './Search.module.css';
 
 export const SEARCH_KEY = 'search-query';
 
-function Search() {
+function Search({ className = '' }: { className?: string }) {
   const [query, setQuery] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -48,7 +48,7 @@ function Search() {
   };
 
   return (
-    <div className={cls.Search} data-testid="search">
+    <div className={`${cls.Search} ${className}`} data-testid="search">
       <input
         className={cls.Search__input}
         type="text"

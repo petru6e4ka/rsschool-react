@@ -1,11 +1,64 @@
-#root * {
-  box-sizing: border-box;
+.wrapper.dark {
+  --accent: #646cff;
+  --accent-darker: #535bf2;
+  --bg: #303030;
+  --color: rgba(255, 255, 255, 0.87);
+  --button: #1a1a1a;
 }
+
+.wrapper.light {
+  --accent: #f86800;
+  --accent-darker: #dc5e03;
+  --bg: #eaeaea;
+  --color: rgba(0, 0, 0, 0.87);
+  --button: #fff;
+}
+
 .wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  color: var(--color);
+  background-color: var(--bg);
+}
+
+a {
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-darker);
+}
+
+button,
+input[type='text'] {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--button);
+  color: var(--color);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+input[type='text']:hover,
+button:hover {
+  border-color: var(--accent);
+}
+
+button:focus,
+button:focus-visible,
+input[type='text']:focus,
+input[type='text']:focus-visible {
+  outline: 1px solid var(--accent);
+  border: 1px solid var(--accent);
 }
 
 .container {
