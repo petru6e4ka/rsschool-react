@@ -13,12 +13,13 @@ function Search({ className = '' }: { className?: string }) {
   const setInitialQuery = (val: string) => {
     setQuery(val);
 
+    const allParams = Object.fromEntries(searchParams.entries());
+
     if (val) {
-      setSearchParams({ query: val });
+      setSearchParams({ ...allParams, query: val });
       return;
     }
 
-    const allParams = Object.fromEntries(searchParams.entries());
     const { query: q, ...rest } = allParams;
 
     setSearchParams(rest);
@@ -49,15 +50,7 @@ function Search({ className = '' }: { className?: string }) {
 
   return (
     <div className={`${cls.Search} ${className}`} data-testid="search">
-      <input
-        className={cls.Search__input}
-        type="text"
-        name="search"
-        id="search"
-        value={query}
-        onChange={updateSearch}
-        data-testid="search-input"
-      />
+      <input className={cls.Search__input} type="text" name="search" id="search" value={query} onChange={updateSearch} data-testid="search-input" />
       <button type="button" onClick={getSearchResults} data-testid="search-btn">
         Search
       </button>

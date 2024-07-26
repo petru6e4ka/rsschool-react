@@ -37,9 +37,7 @@ const toFetch = async <T>({
       return data;
     }
 
-    const message = response.status
-      ? `${ERROR_MESSAGE}: ${response.status}`
-      : '';
+    const message = response.status ? `${ERROR_MESSAGE}: ${response.status}` : '';
 
     throw new Error(message);
   } catch (error) {
@@ -53,11 +51,13 @@ const toFetch = async <T>({
   }
 };
 
-type DefaultParams = { skip?: number; limit?: number };
+export type DefaultParams = { skip?: number; limit?: number };
 
 const getAllPockemons = (params: DefaultParams = {}) => toFetch<{ results: Pockemon[] }>({
   url: `?offset=${params.skip || DEFAULT_SKIP}&limit=${params.limit || DEFAULT_LIMIT}`,
 });
 const getPockemon = (query: string) => toFetch<Pockemon>({ url: query });
 
-export { getAllPockemons, getPockemon };
+export const service = { getAllPockemons, getPockemon };
+export default { getAllPockemons, getPockemon };
+export type TService = typeof service;

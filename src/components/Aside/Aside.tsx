@@ -1,62 +1,32 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
-import { getPockemon } from '../../services/api/api';
-import { Pockemon } from '../../types/Pockemon';
+import { useEffect, useRef } from 'react';
+import { useAppDispatch } from '../../store';
+import { loadSelectedPockemon, useSelectedPockemonSelector } from '../../store/selectedPockemon';
 import Loader from '../Loader/Loader';
 import ErrorNotification from '../Error/ErrorNotification';
+import { useActions } from '../../hooks/useActions';
 
 import * as cls from './Aside.module.css';
-
-interface State {
-  isLoading: boolean;
-  error: null | {
-    message: string;
-  };
-  info: Pockemon | null;
-}
 
 function Aside() {
   const { pockemon } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [pockemonInfo, setPockemonInfo] = useState<State>({
-    isLoading: false,
-    error: null,
-    info: null,
-  });
+  const dispatch = useAppDispatch();
+  const { error, isLoading, pockemon: selectedPockemon } = useSelectedPockemonSelector();
+  const { resetSelectedPockemon } = useActions();
 
   const asideRef = useRef(null);
 
   useEffect(() => {
-    setPockemonInfo({
-      isLoading: true,
-      error: null,
-      info: null,
-    });
-
     if (pockemon) {
-      getPockemon(pockemon)
-        .then((response) => {
-          setPockemonInfo({
-            isLoading: false,
-            error: null,
-            info: response,
-          });
-        })
-        .catch((error) => {
-          setPockemonInfo({
-            isLoading: false,
-            error: {
-              message: error.message,
-            },
-            info: null,
-          });
-        });
+      dispatch(loadSelectedPockemon(pockemon));
     }
   }, [pockemon]);
 
   const onClickOutside = () => {
     navigate(`../${location.search}`);
+    resetSelectedPockemon();
   };
 
   useEffect(() => {
@@ -86,47 +56,33 @@ function Aside() {
     <>
       <div className={cls.Backdrop} />
       <div className={cls.Aside} ref={asideRef} data-testid="aside">
-        <button
-          className={cls.Aside__close}
-          onClick={onClickOutside}
-          type="button"
-          data-testid="close-detailed-card"
-        >
+        <button className={cls.Aside__close} onClick={onClickOutside} type="button" data-testid="close-detailed-card">
           +
         </button>
-        {pockemonInfo.isLoading && <Loader />}
-        {pockemonInfo.error && (
-          <ErrorNotification message={pockemonInfo.error.message} />
-        )}
-        {pockemonInfo.info && (
+        {isLoading && <Loader />}
+        {error && <ErrorNotification message={error} />}
+        {selectedPockemon && (
           <div data-testid="pockemon-info">
             <h2 className={cls.Aside__info}>
               Name:
               <br />
-              {pockemonInfo.info.name.toUpperCase()}
+              {selectedPockemon.name.toUpperCase()}
             </h2>
-            <img
-              src={pockemonInfo.info.sprites?.front_default}
-              alt={pockemonInfo.info.name}
-            />
+            <img src={selectedPockemon.sprites?.front_default} alt={selectedPockemon.name} />
             <div>
               Abilities:
               <br />
-              <ul>
-                {pockemonInfo.info.abilities?.map((ability) => (
-                  <li key={ability.ability.name}>{ability.ability.name}</li>
-                ))}
-              </ul>
+              <ul>{selectedPockemon.abilities?.map((ability) => <li key={ability.ability.name}>{ability.ability.name}</li>)}</ul>
             </div>
             <p className={cls.Aside__info}>
               Height:
               <br />
-              {pockemonInfo.info.height}
+              {selectedPockemon.height}
             </p>
             <p className={cls.Aside__info}>
               Weight:
               <br />
-              {pockemonInfo.info.weight}
+              {selectedPockemon.weight}
             </p>
           </div>
         )}

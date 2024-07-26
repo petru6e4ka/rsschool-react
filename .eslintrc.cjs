@@ -13,15 +13,20 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', 'react-compiler'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'react/react-in-jsx-scope': 0,
     'react-compiler/react-compiler': 'error',
     'react/static-property-placement': 0,
     'react/require-default-props': 0,
     'react-hooks/exhaustive-deps': 0,
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state'],
+      },
+    ],
+    'max-len': ['error', { code: 150 }],
   },
   parserOptions: {
     ecmaVersion: 'latest',

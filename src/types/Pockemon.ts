@@ -10,7 +10,7 @@ type Sprite = {
 
 export interface Pockemon {
   name: string;
-  id?: string;
+  id?: number;
   url?: string;
   height?: string;
   weight?: string;

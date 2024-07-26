@@ -1,125 +1,59 @@
-import {
-  useState, useCallback, useEffect, Suspense,
-} from 'react';
+import { useCallback, useEffect, Suspense } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import ErrorNotification from '../../components/Error/ErrorNotification';
 import Search from '../../components/Search/Search';
 import List from '../../components/List/List';
 import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
-import {
-  getPockemon,
-  getAllPockemons,
-  DEFAULT_LIMIT,
-} from '../../services/api/api';
-import { Pockemon } from '../../types/Pockemon';
+import { DEFAULT_LIMIT } from '../../services/api/api';
 import ThemeSwitcher from '../../providers/theme/ThemeSwitcher/ThemeSwitcher';
+import { loadPockemons, usePockemonsSelector } from '../../store/pockemons';
+import { useAppDispatch } from '../../store';
+import { useFavouritesSelector } from '../../store/favourites';
+import Flyout from '../../components/Flyout/Flyout';
 
 import * as cls from './Home.module.css';
 
-interface State {
-  isLoading: boolean;
-  error: null | {
-    message: string;
-  };
-  items: Pockemon[];
-}
-
 function Home() {
-  const [pockemons, setPockemons] = useState<State>({
-    isLoading: false,
-    error: null,
-    items: [],
-  });
+  const dispatch = useAppDispatch();
+  const { error, isLoading, items } = usePockemonsSelector();
+  const { favourites, error: errorAddToFavourites } = useFavouritesSelector();
+
   const [searchParams] = useSearchParams();
 
   const getSearchResults = useCallback((query: string) => {
-    setPockemons({
-      isLoading: true,
-      error: null,
-      items: [],
-    });
-
-    if (query) {
-      getPockemon(query)
-        .then((response) => {
-          setPockemons({
-            isLoading: false,
-            error: null,
-            items: [response],
-          });
-        })
-        .catch((error) => {
-          setPockemons({
-            isLoading: false,
-            error: {
-              message: error.message,
-            },
-            items: [],
-          });
-        });
-
+    if (!query) {
+      dispatch(loadPockemons({}));
       return;
     }
 
-    getAllPockemons()
-      .then((response) => {
-        setPockemons({
-          isLoading: false,
-          error: null,
-          items: response.results,
-        });
-      })
-      .catch((error) => {
-        setPockemons({
-          isLoading: false,
-          error: {
-            message: error.message,
-          },
-          items: [],
-        });
-      });
+    dispatch(loadPockemons({ query }));
   }, []);
 
   const changePage = (newPage: number) => {
-    setPockemons({
-      isLoading: true,
-      error: null,
-      items: [],
-    });
-
-    getAllPockemons({ skip: (newPage - 1) * DEFAULT_LIMIT })
-      .then((response) => {
-        setPockemons({
-          isLoading: false,
-          error: null,
-          items: response.results,
-        });
-      })
-      .catch((error) => {
-        setPockemons({
-          isLoading: false,
-          error: {
-            message: error.message,
-          },
-          items: [],
-        });
-      });
+    dispatch(loadPockemons({ skip: (newPage - 1) * DEFAULT_LIMIT }));
   };
 
   const page = searchParams.get('page');
   const query = searchParams.get('query') || '';
 
   useEffect(() => {
-    changePage(Number(page));
-  }, [page]);
+    if (!query && !page) {
+      changePage(1);
+      return;
+    }
 
-  useEffect(() => {
+    if (!query && page) {
+      changePage(Number(page));
+      return;
+    }
+
     getSearchResults(query);
-  }, [query]);
+  }, [query, page]);
 
-  const isListShowing = !pockemons.isLoading && !pockemons.error && pockemons.items.length > 0;
-  const isPaginateShowing = !pockemons.isLoading && !pockemons.error && pockemons.items.length > 1;
+  const isListShowing = !isLoading && !error && items.length > 0;
+  const isPaginateShowing = !isLoading && !error && items.length > 1;
+  const hasError = errorAddToFavourites || error;
 
   return (
     <>
@@ -131,14 +65,12 @@ function Home() {
       </header>
       <main className={cls.Main} data-testid="main">
         <div className="container">
-          {pockemons.isLoading && <Loader />}
-          {pockemons.error && (
-            <ErrorNotification message={pockemons.error.message} />
-          )}
+          {isLoading && <Loader />}
+          {hasError && <ErrorNotification message={hasError} />}
           {isListShowing && (
             <div className={cls.Pockemon}>
               <div className={cls.Pockemon__main}>
-                <List items={pockemons.items} />
+                <List items={items} />
               </div>
               <aside className={cls.Pockemon__aside}>
                 <Suspense fallback={<Loader />}>
@@ -149,6 +81,7 @@ function Home() {
           )}
         </div>
         <div className="container">{isPaginateShowing && <Pagination />}</div>
+        {favourites.length > 0 && <Flyout />}
       </main>
     </>
   );
