@@ -175,19 +175,14 @@ const onePockemon = {
   abilities: [
     {
       ability: {
-        name: 'overgrow',
-      },
-    },
-    {
-      ability: {
-        name: 'chlorophyll',
+        name: 'ABILITY_1',
       },
     },
   ],
-  height: 7,
-  weight: 69,
+  height: 100500,
+  weight: 100501,
   id: 1,
-  name: 'bulbasaur',
+  name: 'ONE_POCKEMON_NAME',
   sprites: {
     front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
   },
