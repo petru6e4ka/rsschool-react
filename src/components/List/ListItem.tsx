@@ -35,7 +35,7 @@ function ListItem({ item }: ListItemProps) {
     }
   };
 
-  const isInFavourites = !!favourites.find((pockemon) => String(pockemon.id) === pockemonId);
+  const isInFavourites = !!favourites.find((pockemon) => String(pockemon.id) === String(pockemonId));
 
   return (
     <li className={cls.List__item} key={item.name} data-testid="list-item">
