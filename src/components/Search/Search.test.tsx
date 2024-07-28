@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, screen } from '@testing-library/react';
-import renderWithRouter from '../../utils/tests/renderWithRouter';
 import Search, { SEARCH_KEY } from './Search';
+import renderWithWrappers from '../../utils/tests/renderWithWrappers';
 
 afterEach(() => {
   window.localStorage.removeItem(SEARCH_KEY);
@@ -9,13 +9,13 @@ afterEach(() => {
 
 describe('Search', () => {
   it('Present on the page', () => {
-    renderWithRouter(<Search />);
+    renderWithWrappers(<Search />, { route: '' });
 
     expect(screen.getByTestId('search')).toBeInTheDocument();
   });
 
   it('Clicking the Search button saves the entered value to the local storage', () => {
-    renderWithRouter(<Search />);
+    renderWithWrappers(<Search />, { route: '' });
 
     const value = 'bulbasaur';
     const input = screen.getByTestId('search-input');
@@ -37,7 +37,7 @@ describe('Search', () => {
 
     window.localStorage.setItem(SEARCH_KEY, value);
 
-    renderWithRouter(<Search />);
+    renderWithWrappers(<Search />, { route: '' });
 
     const input = screen.getByTestId('search-input') as HTMLInputElement;
 

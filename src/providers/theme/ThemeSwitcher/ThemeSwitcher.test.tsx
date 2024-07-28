@@ -1,19 +1,11 @@
-import { screen, render, act } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { screen, act } from '@testing-library/react';
 import ThemeSwitcher from './ThemeSwitcher';
-import { store } from '../../../store';
+import renderWithWrappers from '../../../utils/tests/renderWithWrappers';
 
 describe('ThemeSwitcher', () => {
   it('Present on the page', async () => {
     await act(async () => {
-      render(
-        <MemoryRouter>
-          <Provider store={store}>
-            <ThemeSwitcher />
-          </Provider>
-        </MemoryRouter>,
-      );
+      renderWithWrappers(<ThemeSwitcher />, { route: '' });
     });
 
     expect(screen.getByTestId('ThemeSwitcher')).toBeInTheDocument();

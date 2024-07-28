@@ -1,10 +1,10 @@
 import { screen } from '@testing-library/react';
-import renderWithRouter from '../../utils/tests/renderWithRouter';
 import Pagination from './Pagination';
+import renderWithWrappers from '../../utils/tests/renderWithWrappers';
 
 describe('Pagination', () => {
   it('Present on the page', () => {
-    renderWithRouter(<Pagination />);
+    renderWithWrappers(<Pagination />, { route: '' });
 
     expect(screen.getByTestId('pagination')).toBeInTheDocument();
   });

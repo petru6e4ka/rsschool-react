@@ -1,12 +1,11 @@
 import {
-  act, fireEvent, render, screen, waitForElementToBeRemoved,
+  act, fireEvent, screen, waitForElementToBeRemoved,
 } from '@testing-library/react';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import { SEARCH_KEY } from '../../components/Search/Search';
 import Aside from '../../components/Aside/Aside';
-import { store } from '../../store';
+import renderWithWrappers from '../../utils/tests/renderWithWrappers';
 
 beforeEach(() => {
   localStorage.setItem(SEARCH_KEY, '');
@@ -19,13 +18,7 @@ afterEach(() => {
 describe('Home', () => {
   it('Main is present on the page', async () => {
     await act(async () => {
-      render(
-        <MemoryRouter>
-          <Provider store={store}>
-            <Home />
-          </Provider>
-        </MemoryRouter>,
-      );
+      renderWithWrappers(<Home />, { route: '' });
     });
 
     expect(screen.getByTestId('main')).toBeInTheDocument();
@@ -33,15 +26,12 @@ describe('Home', () => {
 
   it('Clicking on a link opens a detailed card component', async () => {
     await act(async () => {
-      render(
-        <Provider store={store}>
-          <MemoryRouter initialEntries={['/']}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="pockemon/:pockemon" element={<Aside />} />
-            </Routes>
-          </MemoryRouter>
-        </Provider>,
+      renderWithWrappers(
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="pockemon/:pockemon" element={<Aside />} />
+        </Routes>,
+        { route: '/' },
       );
     });
 
