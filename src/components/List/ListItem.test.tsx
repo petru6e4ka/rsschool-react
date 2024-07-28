@@ -18,7 +18,7 @@ describe('ListItem', () => {
     });
 
     const openLink = screen.getByTestId('open-detailed_card');
-    expect(screen.getByText('bulbasaur')).toBeInTheDocument();
+    expect(screen.getByText('POCKEMON_1')).toBeInTheDocument();
     expect(openLink).toHaveAttribute('href', '/pockemon/1');
   });
 });

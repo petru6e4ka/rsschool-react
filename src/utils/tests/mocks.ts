@@ -1,171 +1,171 @@
 const pockemonsList = {
   results: [
     {
-      name: 'bulbasaur',
+      name: 'POCKEMON_1',
       url: 'https://pokeapi.co/api/v2/pokemon/1/',
     },
     {
-      name: 'ivysaur',
+      name: 'POCKEMON_2',
       url: 'https://pokeapi.co/api/v2/pokemon/2/',
     },
     {
-      name: 'venusaur',
+      name: 'POCKEMON_3',
       url: 'https://pokeapi.co/api/v2/pokemon/3/',
     },
     {
-      name: 'charmander',
+      name: 'POCKEMON_4',
       url: 'https://pokeapi.co/api/v2/pokemon/4/',
     },
     {
-      name: 'charmeleon',
+      name: 'POCKEMON_5',
       url: 'https://pokeapi.co/api/v2/pokemon/5/',
     },
     {
-      name: 'charizard',
+      name: 'POCKEMON_6',
       url: 'https://pokeapi.co/api/v2/pokemon/6/',
     },
     {
-      name: 'squirtle',
+      name: 'POCKEMON_7',
       url: 'https://pokeapi.co/api/v2/pokemon/7/',
     },
     {
-      name: 'wartortle',
+      name: 'POCKEMON_8',
       url: 'https://pokeapi.co/api/v2/pokemon/8/',
     },
     {
-      name: 'blastoise',
+      name: 'POCKEMON_9',
       url: 'https://pokeapi.co/api/v2/pokemon/9/',
     },
     {
-      name: 'caterpie',
+      name: 'POCKEMON_10',
       url: 'https://pokeapi.co/api/v2/pokemon/10/',
     },
     {
-      name: 'metapod',
+      name: 'POCKEMON_11',
       url: 'https://pokeapi.co/api/v2/pokemon/11/',
     },
     {
-      name: 'butterfree',
+      name: 'POCKEMON_12',
       url: 'https://pokeapi.co/api/v2/pokemon/12/',
     },
     {
-      name: 'weedle',
+      name: 'POCKEMON_13',
       url: 'https://pokeapi.co/api/v2/pokemon/13/',
     },
     {
-      name: 'kakuna',
+      name: 'POCKEMON_14',
       url: 'https://pokeapi.co/api/v2/pokemon/14/',
     },
     {
-      name: 'beedrill',
+      name: 'POCKEMON_15',
       url: 'https://pokeapi.co/api/v2/pokemon/15/',
     },
     {
-      name: 'pidgey',
+      name: 'POCKEMON_16',
       url: 'https://pokeapi.co/api/v2/pokemon/16/',
     },
     {
-      name: 'pidgeotto',
+      name: 'POCKEMON_17',
       url: 'https://pokeapi.co/api/v2/pokemon/17/',
     },
     {
-      name: 'pidgeot',
+      name: 'POCKEMON_18',
       url: 'https://pokeapi.co/api/v2/pokemon/18/',
     },
     {
-      name: 'rattata',
+      name: 'POCKEMON_19',
       url: 'https://pokeapi.co/api/v2/pokemon/19/',
     },
     {
-      name: 'raticate',
+      name: 'POCKEMON_20',
       url: 'https://pokeapi.co/api/v2/pokemon/20/',
     },
     {
-      name: 'spearow',
+      name: 'POCKEMON_21',
       url: 'https://pokeapi.co/api/v2/pokemon/21/',
     },
     {
-      name: 'fearow',
+      name: 'POCKEMON_22',
       url: 'https://pokeapi.co/api/v2/pokemon/22/',
     },
     {
-      name: 'ekans',
+      name: 'POCKEMON_23',
       url: 'https://pokeapi.co/api/v2/pokemon/23/',
     },
     {
-      name: 'arbok',
+      name: 'POCKEMON_24',
       url: 'https://pokeapi.co/api/v2/pokemon/24/',
     },
     {
-      name: 'pikachu',
+      name: 'POCKEMON_25',
       url: 'https://pokeapi.co/api/v2/pokemon/25/',
     },
     {
-      name: 'raichu',
+      name: 'POCKEMON_26',
       url: 'https://pokeapi.co/api/v2/pokemon/26/',
     },
     {
-      name: 'sandshrew',
+      name: 'POCKEMON_27',
       url: 'https://pokeapi.co/api/v2/pokemon/27/',
     },
     {
-      name: 'sandslash',
+      name: 'POCKEMON_28',
       url: 'https://pokeapi.co/api/v2/pokemon/28/',
     },
     {
-      name: 'nidoran-f',
+      name: 'POCKEMON_29',
       url: 'https://pokeapi.co/api/v2/pokemon/29/',
     },
     {
-      name: 'nidorina',
+      name: 'POCKEMON_30',
       url: 'https://pokeapi.co/api/v2/pokemon/30/',
     },
     {
-      name: 'nidoqueen',
+      name: 'POCKEMON_31',
       url: 'https://pokeapi.co/api/v2/pokemon/31/',
     },
     {
-      name: 'nidoran-m',
+      name: 'POCKEMON_32',
       url: 'https://pokeapi.co/api/v2/pokemon/32/',
     },
     {
-      name: 'nidorino',
+      name: 'POCKEMON_33',
       url: 'https://pokeapi.co/api/v2/pokemon/33/',
     },
     {
-      name: 'nidoking',
+      name: 'POCKEMON_34',
       url: 'https://pokeapi.co/api/v2/pokemon/34/',
     },
     {
-      name: 'clefairy',
+      name: 'POCKEMON_35',
       url: 'https://pokeapi.co/api/v2/pokemon/35/',
     },
     {
-      name: 'clefable',
+      name: 'POCKEMON_36',
       url: 'https://pokeapi.co/api/v2/pokemon/36/',
     },
     {
-      name: 'vulpix',
+      name: 'POCKEMON_37',
       url: 'https://pokeapi.co/api/v2/pokemon/37/',
     },
     {
-      name: 'ninetales',
+      name: 'POCKEMON_38',
       url: 'https://pokeapi.co/api/v2/pokemon/38/',
     },
     {
-      name: 'jigglypuff',
+      name: 'POCKEMON_39',
       url: 'https://pokeapi.co/api/v2/pokemon/39/',
     },
     {
-      name: 'wigglytuff',
+      name: 'POCKEMON_40',
       url: 'https://pokeapi.co/api/v2/pokemon/40/',
     },
     {
-      name: 'zubat',
+      name: 'POCKEMON_41',
       url: 'https://pokeapi.co/api/v2/pokemon/41/',
     },
     {
-      name: 'golbat',
+      name: 'POCKEMON_42',
       url: 'https://pokeapi.co/api/v2/pokemon/42/',
     },
   ],
