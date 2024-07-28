@@ -20,7 +20,7 @@ function Flyout() {
   };
 
   return (
-    <div className={cls.Flyout}>
+    <div className={cls.Flyout} data-testid="flyout">
       <span>{`Favourites: ${favourites.length}`}</span>
       <button type="button" onClick={removeFavourites}>
         Remove All

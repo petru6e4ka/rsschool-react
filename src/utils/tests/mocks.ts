@@ -189,12 +189,26 @@ const onePockemon = {
   id: 1,
   name: 'bulbasaur',
   sprites: {
-    front_default:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+    front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
   },
+};
+
+const favourites = {
+  favourites: [
+    {
+      name: 'fearow',
+      height: 12,
+      weight: 380,
+      id: 22,
+      abilities: 'keen-eye, sniper',
+    },
+  ],
+  loadingId: null,
+  error: '',
 };
 
 export default {
   pockemonsList,
   onePockemon,
+  favourites,
 };
