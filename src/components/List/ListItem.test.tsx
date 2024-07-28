@@ -1,24 +1,37 @@
-import { screen } from '@testing-library/react';
-import renderWithRouter from '../../utils/tests/renderWithRouter';
+import { act, render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import ListItem from './ListItem';
-
-const pockemon = {
-  name: 'bulbasaur',
-  url: 'https://pokeapi.co/api/v2/pokemon/1/',
-};
+import { store } from '../../store';
+import mocks from '../../utils/tests/mocks';
 
 describe('ListItem', () => {
-  it('Present on the page', () => {
-    renderWithRouter(<ListItem item={pockemon} />);
+  it('Present on the page', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Provider store={store}>
+            <ListItem item={mocks.pockemonsList.results[0]} />
+          </Provider>
+        </MemoryRouter>,
+      );
+    });
 
     expect(screen.getByTestId('list-item')).toBeInTheDocument();
   });
 
-  it('Renders the relevant card data', () => {
-    renderWithRouter(<ListItem item={pockemon} />);
+  it('Renders the relevant card data', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <Provider store={store}>
+            <ListItem item={mocks.pockemonsList.results[0]} />
+          </Provider>
+        </MemoryRouter>,
+      );
+    });
 
     const openLink = screen.getByTestId('open-detailed_card');
-
     expect(screen.getByText('bulbasaur')).toBeInTheDocument();
     expect(openLink).toHaveAttribute('href', '/pockemon/1');
   });

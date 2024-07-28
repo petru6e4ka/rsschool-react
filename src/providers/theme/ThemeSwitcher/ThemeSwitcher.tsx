@@ -10,15 +10,10 @@ function ThemeSwitcher({ className }: { className?: string }) {
   };
 
   return (
-    <div className={`${cls.ThemeSwitcher} ${className}`}>
+    <div className={`${cls.ThemeSwitcher} ${className}`} data-testid="ThemeSwitcher">
       <label className={cls.Switch} htmlFor="themeSwitcher">
         Switch Theme
-        <input
-          className={cls.Input}
-          type="checkbox"
-          id="themeSwitcher"
-          onChange={setNewTheme}
-        />
+        <input className={cls.Input} type="checkbox" id="themeSwitcher" onChange={setNewTheme} />
         <span className={`${cls.Slider} ${cls.Round}`} />
       </label>
     </div>
