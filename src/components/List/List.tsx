@@ -22,10 +22,7 @@ function List({ items }: ListProps) {
   }
 
   return (
-    <ul
-      className={`${cls.List} ${isPartWidth ? cls.ListPart : cls.ListFull}`}
-      data-testid="list"
-    >
+    <ul className={`${cls.List} ${isPartWidth ? cls.ListPart : cls.ListFull}`} data-testid="list">
       {items.map((item) => (
         <ListItem item={item} key={item.name} />
       ))}

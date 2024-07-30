@@ -2,8 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { ChangeEvent } from 'react';
 import { Pockemon } from '../../types/Pockemon';
 import { useActions } from '../../hooks/useActions';
-import { addPockemonToFavourites, useFavouritesSelector } from '../../store/favourites';
-import { useAppDispatch } from '../../store';
+import { useFavouritesSelector } from '../../store/favourites';
+import { pokemonApi } from '../../store/api';
 import Loader from '../Loader/Loader';
 
 import * as cls from './ListItem.module.css';
@@ -19,14 +19,18 @@ function ListItem({ item }: ListItemProps) {
   const location = useLocation();
   const pockemonId = parts[parts.length - 1] || item.id;
 
-  const dispatch = useAppDispatch();
+  const { deletePockemonFromFavourites, addPockemonToFavourites } = useActions();
+  const [trigger, { isFetching }] = pokemonApi.endpoints.getPockemon.useLazyQuery();
+  const favourites = useFavouritesSelector();
 
-  const { deletePockemonFromFavourites } = useActions();
-  const { favourites, loadingId } = useFavouritesSelector();
-
-  const favouritePockemonToggle = (e: ChangeEvent<HTMLInputElement>) => {
+  const favouritePockemonToggle = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked && pockemonId) {
-      dispatch(addPockemonToFavourites(String(pockemonId)));
+      await trigger(String(pockemonId))
+        .unwrap()
+        .then((pockemon) => {
+          addPockemonToFavourites(pockemon);
+        });
+
       return;
     }
 
@@ -39,7 +43,7 @@ function ListItem({ item }: ListItemProps) {
 
   return (
     <li className={cls.List__item} key={item.name} data-testid="list-item">
-      {loadingId === Number(pockemonId) && (
+      {isFetching && (
         <div className={cls.Backdrop}>
           <Loader />
         </div>
@@ -52,13 +56,7 @@ function ListItem({ item }: ListItemProps) {
 
         <label className={cls.Input__wrapper} htmlFor={`favourites-${pockemonId}`}>
           Like
-          <input
-            className={cls.Input}
-            type="checkbox"
-            id={`favourites-${pockemonId}`}
-            onChange={favouritePockemonToggle}
-            checked={pockemonId ? isInFavourites : false}
-          />
+          <input className={cls.Input} type="checkbox" id={`favourites-${pockemonId}`} onChange={favouritePockemonToggle} checked={isInFavourites} />
           <span className={cls.Hart} />
         </label>
       </div>

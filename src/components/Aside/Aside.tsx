@@ -1,10 +1,8 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-import { useAppDispatch } from '../../store';
-import { loadSelectedPockemon, useSelectedPockemonSelector } from '../../store/selectedPockemon';
+import { skipToken } from '@reduxjs/toolkit/query';
 import Loader from '../Loader/Loader';
-import ErrorNotification from '../Error/ErrorNotification';
-import { useActions } from '../../hooks/useActions';
+import { useGetPockemonQuery } from '../../store/api';
 
 import * as cls from './Aside.module.css';
 
@@ -12,21 +10,15 @@ function Aside() {
   const { pockemon } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useAppDispatch();
-  const { error, isLoading, pockemon: selectedPockemon } = useSelectedPockemonSelector();
-  const { resetSelectedPockemon } = useActions();
+
+  const {
+    data, isError, isSuccess, isFetching,
+  } = useGetPockemonQuery(pockemon || skipToken);
 
   const asideRef = useRef(null);
 
-  useEffect(() => {
-    if (pockemon) {
-      dispatch(loadSelectedPockemon(pockemon));
-    }
-  }, [pockemon]);
-
   const onClickOutside = () => {
     navigate(`../${location.search}`);
-    resetSelectedPockemon();
   };
 
   useEffect(() => {
@@ -59,30 +51,30 @@ function Aside() {
         <button className={cls.Aside__close} onClick={onClickOutside} type="button" data-testid="close-detailed-card">
           +
         </button>
-        {isLoading && <Loader />}
-        {error && <ErrorNotification message={error} />}
-        {selectedPockemon && (
+        {isFetching && <Loader />}
+        {isError && <div className={cls.Aside__error}>Can&lsquo;t load the pockemon, please, try later</div>}
+        {!isFetching && !isError && isSuccess && (
           <div data-testid="pockemon-info">
             <h2 className={cls.Aside__info}>
               Name:
               <br />
-              {selectedPockemon.name.toUpperCase()}
+              {data.name.toUpperCase()}
             </h2>
-            <img src={selectedPockemon.sprites?.front_default} alt={selectedPockemon.name} />
+            <img src={data.sprites?.front_default} alt={data.name} />
             <div>
               Abilities:
               <br />
-              <ul>{selectedPockemon.abilities?.map((ability) => <li key={ability.ability.name}>{ability.ability.name}</li>)}</ul>
+              <ul>{data.abilities?.map((ability) => <li key={ability.ability.name}>{ability.ability.name}</li>)}</ul>
             </div>
             <p className={cls.Aside__info}>
               Height:
               <br />
-              {selectedPockemon.height}
+              {data.height}
             </p>
             <p className={cls.Aside__info}>
               Weight:
               <br />
-              {selectedPockemon.weight}
+              {data.weight}
             </p>
           </div>
         )}

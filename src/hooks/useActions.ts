@@ -1,10 +1,9 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { resetSelectedPockemon } from '../store/selectedPockemon';
-import { deletePockemonFromFavourites, resetFavourites } from '../store/favourites';
+import { deletePockemonFromFavourites, resetFavourites, addPockemonToFavourites } from '../store/favourites';
 
 const actions = {
-  resetSelectedPockemon,
+  addPockemonToFavourites,
   deletePockemonFromFavourites,
   resetFavourites,
 };

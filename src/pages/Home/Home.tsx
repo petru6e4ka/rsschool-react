@@ -1,5 +1,6 @@
-import { useCallback, useEffect, Suspense } from 'react';
+import { Suspense } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
+import { skipToken } from '@reduxjs/toolkit/query';
 import ErrorNotification from '../../components/Error/ErrorNotification';
 import Search from '../../components/Search/Search';
 import List from '../../components/List/List';
@@ -7,53 +8,33 @@ import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
 import { DEFAULT_LIMIT } from '../../services/api/api';
 import ThemeSwitcher from '../../providers/theme/ThemeSwitcher/ThemeSwitcher';
-import { loadPockemons, usePockemonsSelector } from '../../store/pockemons';
-import { useAppDispatch } from '../../store';
+import { useGetAllPockemonsQuery, useGetPockemonQuery } from '../../store/api';
 import { useFavouritesSelector } from '../../store/favourites';
 import Flyout from '../../components/Flyout/Flyout';
 
 import * as cls from './Home.module.css';
 
 function Home() {
-  const dispatch = useAppDispatch();
-  const { error, isLoading, items } = usePockemonsSelector();
-  const { favourites, error: errorAddToFavourites } = useFavouritesSelector();
+  const favourites = useFavouritesSelector();
 
   const [searchParams] = useSearchParams();
 
-  const getSearchResults = useCallback((query: string) => {
-    if (!query) {
-      dispatch(loadPockemons({}));
-      return;
-    }
-
-    dispatch(loadPockemons({ query }));
-  }, []);
-
-  const changePage = (newPage: number) => {
-    dispatch(loadPockemons({ skip: (newPage - 1) * DEFAULT_LIMIT }));
-  };
-
-  const page = searchParams.get('page');
+  const page = searchParams.get('page') || 1;
   const query = searchParams.get('query') || '';
 
-  useEffect(() => {
-    if (!query && !page) {
-      changePage(1);
-      return;
-    }
+  const {
+    data: pockemons,
+    isError: isErrorPockemons,
+    isSuccess: isSuccessPockemons,
+    isFetching: isFetchingPockemons,
+  } = useGetAllPockemonsQuery({ skip: (Number(page) - 1) * DEFAULT_LIMIT });
 
-    if (!query && page) {
-      changePage(Number(page));
-      return;
-    }
-
-    getSearchResults(query);
-  }, [query, page]);
-
-  const isListShowing = !isLoading && !error && items.length > 0;
-  const isPaginateShowing = !isLoading && !error && items.length > 1;
-  const hasError = errorAddToFavourites || error;
+  const {
+    data: onePockemon,
+    isError: isErrorOnePockemon,
+    isSuccess: isSuccessrOnePockemon,
+    isFetching: isFetchingOnePockemon,
+  } = useGetPockemonQuery(query || skipToken);
 
   return (
     <>
@@ -64,23 +45,51 @@ function Home() {
         </div>
       </header>
       <main className={cls.Main} data-testid="main">
-        <div className="container">
-          {isLoading && <Loader />}
-          {hasError && <ErrorNotification message={hasError} />}
-          {isListShowing && (
-            <div className={cls.Pockemon}>
-              <div className={cls.Pockemon__main}>
-                <List items={items} />
-              </div>
-              <aside className={cls.Pockemon__aside}>
-                <Suspense fallback={<Loader />}>
-                  <Outlet />
-                </Suspense>
-              </aside>
+        {!query && (
+          <>
+            <div className="container">
+              {isFetchingPockemons && <Loader />}
+              {isErrorPockemons && <ErrorNotification message={"Can't load pockemons"} />}
+              {!isFetchingPockemons && isSuccessPockemons && (
+                <div className={cls.Pockemon}>
+                  <div className={cls.Pockemon__main}>
+                    <List items={pockemons?.results} />
+                  </div>
+                  <aside className={cls.Pockemon__aside}>
+                    <Suspense fallback={<Loader />}>
+                      <Outlet />
+                    </Suspense>
+                  </aside>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <div className="container">{isPaginateShowing && <Pagination />}</div>
+            {!isFetchingPockemons && isSuccessPockemons && pockemons?.results.length > 0 && (
+              <div className="container">
+                <Pagination />
+              </div>
+            )}
+          </>
+        )}
+
+        {query && (
+          <div className="container">
+            {isFetchingOnePockemon && <Loader />}
+            {isErrorOnePockemon && <ErrorNotification message={"Can't load pockemon"} />}
+            {!isFetchingOnePockemon && isSuccessrOnePockemon && (
+              <div className={cls.Pockemon}>
+                <div className={cls.Pockemon__main}>
+                  <List items={[onePockemon]} />
+                </div>
+                <aside className={cls.Pockemon__aside}>
+                  <Suspense fallback={<Loader />}>
+                    <Outlet />
+                  </Suspense>
+                </aside>
+              </div>
+            )}
+          </div>
+        )}
+
         {favourites.length > 0 && <Flyout />}
       </main>
     </>

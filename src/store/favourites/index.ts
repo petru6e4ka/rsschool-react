@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 import { Pockemon } from '../../types/Pockemon';
-import { TService } from '../../services/api/api';
 
 type PockemonTable = {
   name: string;
@@ -11,68 +10,28 @@ type PockemonTable = {
   id: number;
 };
 
-interface IInitialState {
-  favourites: PockemonTable[];
-  loadingId: number | null;
-  error: string;
-}
+export type IFavouritesInitialState = PockemonTable[];
 
-const initialState: IInitialState = {
-  favourites: [],
-  loadingId: null,
-  error: '',
-};
+const initialState: IFavouritesInitialState = [];
 
 export type RequestParams = string;
-
-export const addPockemonToFavourites = createAsyncThunk<Pockemon, RequestParams, { rejectValue: string }>(
-  'favouritePockemon/load',
-  async (id, { rejectWithValue, extra: service }) => {
-    try {
-      const data = await (service as TService).getPockemon(id);
-
-      return data as unknown as Pockemon;
-    } catch (err) {
-      const { message } = err as unknown as { message: string };
-
-      return rejectWithValue(message);
-    }
-  },
-);
 
 const favouritesSlice = createSlice({
   name: 'favourites',
   initialState,
   reducers: {
-    deletePockemonFromFavourites: (state, action) => {
-      state.favourites = state.favourites.filter((pockemon) => pockemon.id !== action.payload);
-    },
+    deletePockemonFromFavourites: (state, action) => state.filter((pockemon) => pockemon.id !== action.payload),
+    addPockemonToFavourites: (state, action: { payload: Pockemon }) => state.concat({
+      name: action.payload.name || '',
+      height: action.payload.height || '',
+      weight: action.payload.weight || '',
+      id: action.payload.id as number,
+      abilities: action.payload.abilities?.map((ability) => ability.ability.name).join(', ') || '',
+    }),
     resetFavourites: () => initialState,
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(addPockemonToFavourites.fulfilled, (state, action) => {
-        state.favourites.push({
-          name: action.payload.name || '',
-          height: action.payload.height || '',
-          weight: action.payload.weight || '',
-          id: action.payload.id as number,
-          abilities: action.payload.abilities?.map((ability) => ability.ability.name).join(', ') || '',
-        });
-        state.loadingId = null;
-        state.error = '';
-      })
-      .addCase(addPockemonToFavourites.rejected, (state, action) => {
-        state.loadingId = null;
-        state.error = action.payload || action.error.message || '';
-      })
-      .addCase(addPockemonToFavourites.pending, (state, action) => {
-        state.loadingId = Number(action.meta.arg);
-        state.error = '';
-      });
   },
 });
 
 export const favouritesReducer = favouritesSlice.reducer;
-export const { deletePockemonFromFavourites, resetFavourites } = favouritesSlice.actions;
-export const useFavouritesSelector = () => useSelector((state: { favourites: IInitialState }) => state.favourites);
+export const { deletePockemonFromFavourites, resetFavourites, addPockemonToFavourites } = favouritesSlice.actions;
+export const useFavouritesSelector = () => useSelector((state: { favourites: IFavouritesInitialState }) => state.favourites);

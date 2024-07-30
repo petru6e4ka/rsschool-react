@@ -15,7 +15,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.2.6",
+    "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/06a30ee4/@reduxjs/toolkit",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -35,6 +35,7 @@
     "@types/react": "^18.3.3",
     "@types/react-csv": "^1.1.10",
     "@types/react-dom": "^18.3.0",
+    "@types/redux-persist": "^4.3.1",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitest/coverage-v8": "^2.0.2",

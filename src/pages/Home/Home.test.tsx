@@ -86,7 +86,9 @@ describe('Home', () => {
       renderWithWrappers(<Home />, { route: '' });
     });
 
-    expect(screen.getByTestId('error-notification')).toBeInTheDocument();
+    waitFor(() => {
+      expect(screen.getByTestId('error-notification')).toBeInTheDocument();
+    });
   });
 
   it('Triggers an additional API call to fetch detailed information', async () => {

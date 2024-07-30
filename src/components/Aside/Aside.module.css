@@ -4,6 +4,7 @@
   flex-direction: column;
   margin-top: 50px;
   padding: 30px;
+  min-height: 200px;
   width: 400px;
   align-items: flex-start;
   gap: 20px;
@@ -12,6 +13,10 @@
 
 .Aside__info {
   margin: 0;
+}
+
+.Aside__error {
+  margin: 50px 0;
 }
 
 .Aside__close {

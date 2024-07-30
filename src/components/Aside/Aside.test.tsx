@@ -77,6 +77,6 @@ describe('Aside', () => {
       renderWithWrappers(<Aside />, { route });
     });
 
-    waitFor(() => expect(screen.getByTestId('error-notification')).toBeInTheDocument());
+    waitFor(() => expect(screen.getByText('Can&lsquo;t load the pockemon, please, try later')).toBeInTheDocument());
   });
 });

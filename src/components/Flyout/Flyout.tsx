@@ -12,7 +12,7 @@ const headers = [
 ];
 
 function Flyout() {
-  const { favourites } = useFavouritesSelector();
+  const favourites = useFavouritesSelector();
   const { resetFavourites } = useActions();
 
   const removeFavourites = () => {
