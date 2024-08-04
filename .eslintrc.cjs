@@ -27,6 +27,7 @@ module.exports = {
       },
     ],
     'max-len': ['error', { code: 150 }],
+    'no-spaced-func': 0,
   },
   parserOptions: {
     ecmaVersion: 'latest',

@@ -1,8 +1,9 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import Loader from '../Loader/Loader';
 import { useGetPockemonQuery } from '../../store/api';
+import { useClickOutside } from '../../hooks/useClickOutside';
 
 import * as styles from './Aside.module.css';
 
@@ -15,34 +16,13 @@ function Aside() {
     data, isError, isSuccess, isFetching,
   } = useGetPockemonQuery(pockemon || skipToken);
 
-  const asideRef = useRef(null);
+  const asideRef = useRef<HTMLDivElement>(null);
 
   const onClickOutside = () => {
     navigate(`../${location.search}`);
   };
 
-  useEffect(() => {
-    const listener = (event: TouchEvent | MouseEvent) => {
-      if (!asideRef || !asideRef.current) {
-        return;
-      }
-
-      const elem = asideRef.current as never as HTMLDivElement;
-
-      if (elem?.contains(event.target as Node)) {
-        return;
-      }
-      onClickOutside();
-    };
-
-    document.addEventListener('mousedown', listener);
-    document.addEventListener('touchstart', listener);
-
-    return () => {
-      document.removeEventListener('mousedown', listener);
-      document.removeEventListener('touchstart', listener);
-    };
-  }, [asideRef, onClickOutside]);
+  useClickOutside<HTMLDivElement, () => void>(asideRef, onClickOutside);
 
   return (
     <>
