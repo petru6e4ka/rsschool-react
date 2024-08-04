@@ -1,10 +1,9 @@
-import { cleanup, fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import Search, { SEARCH_KEY } from './Search';
 import renderWithWrappers from '../../utils/tests/renderWithWrappers';
 
 afterEach(() => {
   window.localStorage.removeItem(SEARCH_KEY);
-  cleanup();
 });
 
 describe('Search', () => {
