@@ -11,14 +11,6 @@
   background-color: var(--bg);
 }
 
-.AsideInfo {
-  margin: 0;
-}
-
-.AsideError {
-  margin: 50px 0;
-}
-
 .AsideClose {
   position: absolute;
   right: 10px;
