@@ -9,7 +9,7 @@ afterEach(() => {
   window.localStorage.removeItem(FAVOURITES_KEY);
 });
 
-describe('ErrorNotification', () => {
+describe('Flyout', () => {
   it('Present on the page', () => {
     window.localStorage.setItem(FAVOURITES_KEY, JSON.stringify(mocks.favourites));
     renderWithWrappers(<Flyout />, { route: '' });

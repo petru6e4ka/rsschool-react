@@ -1,23 +1,15 @@
 import { useEffect } from 'react';
 import ls from '../utils/localStorage/localStorage';
 
-const useLocalStorage = <T>({
-  key,
-  initialValue,
-  onSuccess,
-}: {
-  key: string;
-  initialValue: T;
-  onSuccess: (val: T) => void;
-}) => {
+const useLocalStorage = <T>({ key, initialValue, onSuccess }: { key: string; initialValue: T; onSuccess: (val: T) => void }) => {
   const { get, set } = ls(key);
 
   useEffect(() => {
-    const getInitialQuery = () => {
-      const search = get();
+    const getInitialValue = () => {
+      const value = get();
 
-      if (search) {
-        onSuccess(search);
+      if (value) {
+        onSuccess(value);
         return;
       }
 
@@ -25,7 +17,7 @@ const useLocalStorage = <T>({
       onSuccess(initialValue);
     };
 
-    getInitialQuery();
+    getInitialValue();
   }, []);
 
   return [set, get];
