@@ -8,7 +8,7 @@ type Sprite = {
   front_default: string;
 };
 
-export interface Pockemon {
+export type Pockemon = {
   name: string;
   id?: number;
   url?: string;
@@ -16,4 +16,4 @@ export interface Pockemon {
   weight?: string;
   sprites?: Sprite;
   abilities?: Ability[];
-}
+};

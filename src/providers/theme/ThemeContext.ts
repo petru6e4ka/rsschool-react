@@ -5,10 +5,10 @@ export enum Theme {
   LIGHT = 'light',
 }
 
-export interface ThemeContextProps {
+export type ThemeContextProps = {
   theme: Theme;
   setTheme: (newTheme: Theme) => void;
-}
+};
 
 export const ThemeContext = createContext<ThemeContextProps>({
   theme: Theme.DARK,

@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { Theme, ThemeContext } from './ThemeContext';
 import themeStorage from './themeStorage';
 
-interface UseThemeResult {
+type UseThemeResult = {
   changeTheme: (theme: Theme) => void;
   theme: Theme;
-}
+};
 
 export function useTheme(): UseThemeResult {
   const { theme, setTheme } = useContext(ThemeContext);

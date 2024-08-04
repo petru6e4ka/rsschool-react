@@ -8,11 +8,11 @@ import Loader from '../Loader/Loader';
 
 import * as cls from './ListItem.module.css';
 
-interface ListItemProps {
+type Props = {
   item: Pockemon;
-}
+};
 
-function ListItem({ item }: ListItemProps) {
+function ListItem({ item }: Props) {
   const { url = '' } = item;
   const parts = url.split('/').filter((el) => !!el);
 

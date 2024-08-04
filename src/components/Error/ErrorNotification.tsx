@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 import * as cls from './ErrorNotification.module.css';
 
-interface Props {
+type Props = {
   message?: string;
-}
+};
 
 function ErrorNotification({ message = '' }: Props) {
   const [isShowing, setIsShowing] = useState(true);

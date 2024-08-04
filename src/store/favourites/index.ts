@@ -10,9 +10,9 @@ type PockemonTable = {
   id: number;
 };
 
-export type IFavouritesInitialState = PockemonTable[];
+export type FavouritesInitialState = PockemonTable[];
 
-const initialState: IFavouritesInitialState = [];
+const initialState: FavouritesInitialState = [];
 
 export type RequestParams = string;
 
@@ -34,4 +34,4 @@ const favouritesSlice = createSlice({
 
 export const favouritesReducer = favouritesSlice.reducer;
 export const { deletePockemonFromFavourites, resetFavourites, addPockemonToFavourites } = favouritesSlice.actions;
-export const useFavouritesSelector = () => useSelector((state: { favourites: IFavouritesInitialState }) => state.favourites);
+export const useFavouritesSelector = () => useSelector((state: { favourites: FavouritesInitialState }) => state.favourites);

@@ -5,11 +5,11 @@ import ListItem from './ListItem';
 
 import * as cls from './List.module.css';
 
-interface ListProps {
+type Props = {
   items: Pockemon[];
-}
+};
 
-function List({ items }: ListProps) {
+function List({ items }: Props) {
   const { pockemon } = useParams();
   const [isPartWidth, setIsPartWidth] = useState(!!pockemon);
 

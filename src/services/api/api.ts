@@ -60,4 +60,4 @@ const getPockemon = (query: string) => toFetch<Pockemon>({ url: query });
 
 export const service = { getAllPockemons, getPockemon };
 export default { getAllPockemons, getPockemon };
-export type TService = typeof service;
+export type Service = typeof service;
