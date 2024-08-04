@@ -8,7 +8,7 @@
   }
 }
 
-.Error__container {
+.ErrorContainer {
   position: absolute;
   top: 50px;
   right: 50px;
@@ -22,11 +22,11 @@
   animation: disappearing 3s;
 }
 
-.Error__container:hover {
+.ErrorContainer:hover {
   animation-play-state: paused;
 }
 
-.Error__btn {
+.ErrorBtn {
   display: inline-flex;
   justify-content: center;
   align-items: center;

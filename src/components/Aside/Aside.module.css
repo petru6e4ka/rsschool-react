@@ -11,15 +11,15 @@
   background-color: var(--bg);
 }
 
-.Aside__info {
+.AsideInfo {
   margin: 0;
 }
 
-.Aside__error {
+.AsideError {
   margin: 50px 0;
 }
 
-.Aside__close {
+.AsideClose {
   position: absolute;
   right: 10px;
   top: 30px;

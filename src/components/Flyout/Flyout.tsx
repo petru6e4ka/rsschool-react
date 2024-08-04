@@ -2,7 +2,7 @@ import { CSVLink } from 'react-csv';
 import { useActions } from '../../hooks/useActions';
 import { useFavouritesSelector } from '../../store/favourites';
 
-import * as cls from './Flyout.module.css';
+import * as styles from './Flyout.module.css';
 
 const headers = [
   { label: 'Pockemon Name', key: 'name' },
@@ -20,7 +20,7 @@ function Flyout() {
   };
 
   return (
-    <div className={cls.Flyout} data-testid="flyout">
+    <div className={styles.Flyout} data-testid="flyout">
       <span>{`Favourites: ${favourites.length}`}</span>
       <button type="button" onClick={removeFavourites}>
         Remove All

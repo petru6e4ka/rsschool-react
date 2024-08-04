@@ -1,7 +1,8 @@
-import * as cls from './Loader.module.css';
+import cn from 'classnames';
+import * as styles from './Loader.module.css';
 
 function Loader({ className = '' }: { className?: string }) {
-  return <span className={`${cls.Loader} ${className}`} data-testid="loader" />;
+  return <span className={cn(styles.Loader, className)} data-testid="loader" />;
 }
 
 export default Loader;

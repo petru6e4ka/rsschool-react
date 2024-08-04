@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import cn from 'classnames';
 import AppRouter from './providers/router/Router';
 import Loader from './components/Loader/Loader';
 import BugButton from './components/ErrorBoundary/BugButton';
@@ -10,7 +11,7 @@ function App() {
   const { theme } = useTheme();
 
   return (
-    <div className={`wrapper ${theme}`} data-testid="app">
+    <div className={cn('wrapper', theme)} data-testid="app">
       <Suspense fallback={<Loader />}>
         <AppRouter />
       </Suspense>

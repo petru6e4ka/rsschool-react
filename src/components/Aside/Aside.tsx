@@ -4,7 +4,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import Loader from '../Loader/Loader';
 import { useGetPockemonQuery } from '../../store/api';
 
-import * as cls from './Aside.module.css';
+import * as styles from './Aside.module.css';
 
 function Aside() {
   const { pockemon } = useParams();
@@ -46,16 +46,16 @@ function Aside() {
 
   return (
     <>
-      <div className={cls.Backdrop} />
-      <div className={cls.Aside} ref={asideRef} data-testid="aside">
-        <button className={cls.Aside__close} onClick={onClickOutside} type="button" data-testid="close-detailed-card">
+      <div className={styles.Backdrop} />
+      <div className={styles.Aside} ref={asideRef} data-testid="aside">
+        <button className={styles.AsideClose} onClick={onClickOutside} type="button" data-testid="close-detailed-card">
           +
         </button>
         {isFetching && <Loader />}
-        {isError && <div className={cls.Aside__error}>Can&lsquo;t load the pockemon, please, try later</div>}
+        {isError && <div className={styles.AsideError}>Can&lsquo;t load the pockemon, please, try later</div>}
         {!isFetching && !isError && isSuccess && (
           <div data-testid="pockemon-info">
-            <h2 className={cls.Aside__info}>
+            <h2 className={styles.AsideInfo}>
               Name:
               <br />
               {data.name.toUpperCase()}
@@ -66,12 +66,12 @@ function Aside() {
               <br />
               <ul>{data.abilities?.map((ability) => <li key={ability.ability.name}>{ability.ability.name}</li>)}</ul>
             </div>
-            <p className={cls.Aside__info}>
+            <p className={styles.AsideInfo}>
               Height:
               <br />
               {data.height}
             </p>
-            <p className={cls.Aside__info}>
+            <p className={styles.AsideInfo}>
               Weight:
               <br />
               {data.weight}

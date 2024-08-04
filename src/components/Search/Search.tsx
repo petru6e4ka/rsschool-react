@@ -1,8 +1,9 @@
 import { ChangeEvent, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import cn from 'classnames';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
-import * as cls from './Search.module.css';
+import * as styles from './Search.module.css';
 
 export const SEARCH_KEY = 'search-query';
 
@@ -49,8 +50,8 @@ function Search({ className = '' }: { className?: string }) {
   };
 
   return (
-    <div className={`${cls.Search} ${className}`} data-testid="search">
-      <input className={cls.Search__input} type="text" name="search" id="search" value={query} onChange={updateSearch} data-testid="search-input" />
+    <div className={cn(styles.Search, className)} data-testid="search">
+      <input className={styles.SearchInput} type="text" name="search" id="search" value={query} onChange={updateSearch} data-testid="search-input" />
       <button type="button" onClick={getSearchResults} data-testid="search-btn">
         Search
       </button>

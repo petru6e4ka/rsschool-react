@@ -1,4 +1,4 @@
-import * as cls from './PageError.module.css';
+import * as styles from './PageError.module.css';
 
 const reloadPage = () => {
   window.location.reload();
@@ -6,8 +6,8 @@ const reloadPage = () => {
 
 function PageError() {
   return (
-    <div className={cls.PageError}>
-      <p className={cls.PageError__message}>Oops! Something went wrong!</p>
+    <div className={styles.PageError}>
+      <p className={styles.PageErrorMessage}>Oops! Something went wrong!</p>
       <button onClick={reloadPage} type="button">
         Reload the page
       </button>

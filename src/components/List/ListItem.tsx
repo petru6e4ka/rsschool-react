@@ -6,7 +6,7 @@ import { useFavouritesSelector } from '../../store/favourites';
 import { pokemonApi } from '../../store/api';
 import Loader from '../Loader/Loader';
 
-import * as cls from './ListItem.module.css';
+import * as styles from './ListItem.module.css';
 
 type Props = {
   item: Pockemon;
@@ -42,22 +42,28 @@ function ListItem({ item }: Props) {
   const isInFavourites = !!favourites.find((pockemon) => String(pockemon.id) === String(pockemonId));
 
   return (
-    <li className={cls.List__item} key={item.name} data-testid="list-item">
+    <li className={styles.ListItem} key={item.name} data-testid="list-item">
       {isFetching && (
-        <div className={cls.Backdrop}>
+        <div className={styles.Backdrop}>
           <Loader />
         </div>
       )}
-      <p className={cls.ListItem__title}>{item.name}</p>
-      <div className={cls.ListItem__actions}>
+      <p className={styles.ListItemTitle}>{item.name}</p>
+      <div className={styles.ListItemActions}>
         <Link to={`/pockemon/${pockemonId}${location.search}`} data-testid="open-detailed_card">
           Learn more
         </Link>
 
-        <label className={cls.Input__wrapper} htmlFor={`favourites-${pockemonId}`}>
+        <label className={styles.InputWrapper} htmlFor={`favourites-${pockemonId}`}>
           Like
-          <input className={cls.Input} type="checkbox" id={`favourites-${pockemonId}`} onChange={favouritePockemonToggle} checked={isInFavourites} />
-          <span className={cls.Hart} />
+          <input
+            className={styles.Input}
+            type="checkbox"
+            id={`favourites-${pockemonId}`}
+            onChange={favouritePockemonToggle}
+            checked={isInFavourites}
+          />
+          <span className={styles.Hart} />
         </label>
       </div>
     </li>

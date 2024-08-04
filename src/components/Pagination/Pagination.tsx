@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { DEFAULT_LIMIT, TOTAL } from '../../services/api/api';
 
-import * as cls from './Pagination.module.css';
+import * as styles from './Pagination.module.css';
 
 type Props = {
   total?: number;
@@ -47,26 +47,22 @@ function Pagination({ total = TOTAL, perPage = DEFAULT_LIMIT }: Props) {
   const buttons = getArray(currentPage, pagesQuantity);
 
   return (
-    <div className={cls.Pagination} data-testid="pagination">
-      <ol className={cls.Pagination__list}>
+    <div className={styles.Pagination} data-testid="pagination">
+      <ol className={styles.PaginationList}>
         {buttons[0] !== 1 && (
           <>
-            <li className={cls.Pagination__item} key={1}>
-              <button
-                onClick={() => changePage(1)}
-                type="button"
-                data-testid="pagination-btn"
-              >
+            <li className={styles.PaginationItem} key={1}>
+              <button onClick={() => changePage(1)} type="button" data-testid="pagination-btn">
                 1
               </button>
             </li>
-            <li className={cls.Pagination__empty}>...</li>
+            <li className={styles.PaginationEmpty}>...</li>
           </>
         )}
         {buttons.map((el: number) => (
-          <li className={cls.Pagination__item} key={el}>
+          <li className={styles.PaginationItem} key={el}>
             <button
-              className={currentPage === el ? cls.Pagination__active : ''}
+              className={currentPage === el ? styles.PaginationActive : ''}
               onClick={() => changePage(el)}
               type="button"
               data-testid="pagination-btn"
@@ -77,13 +73,9 @@ function Pagination({ total = TOTAL, perPage = DEFAULT_LIMIT }: Props) {
         ))}
         {buttons[buttons.length - 1] !== pagesQuantity && (
           <>
-            <li className={cls.Pagination__empty}>...</li>
-            <li className={cls.Pagination__item} key={pagesQuantity}>
-              <button
-                onClick={() => changePage(pagesQuantity)}
-                type="button"
-                data-testid="pagination-btn"
-              >
+            <li className={styles.PaginationEmpty}>...</li>
+            <li className={styles.PaginationItem} key={pagesQuantity}>
+              <button onClick={() => changePage(pagesQuantity)} type="button" data-testid="pagination-btn">
                 {pagesQuantity}
               </button>
             </li>

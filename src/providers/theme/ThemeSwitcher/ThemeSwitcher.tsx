@@ -1,6 +1,7 @@
+import cn from 'classnames';
 import { Theme } from '../ThemeContext';
 import { useTheme } from '../useTheme';
-import * as cls from './ThemeSwitcher.module.css';
+import * as styles from './ThemeSwitcher.module.css';
 
 function ThemeSwitcher({ className }: { className?: string }) {
   const { theme, changeTheme } = useTheme();
@@ -10,11 +11,11 @@ function ThemeSwitcher({ className }: { className?: string }) {
   };
 
   return (
-    <div className={`${cls.ThemeSwitcher} ${className}`} data-testid="ThemeSwitcher">
-      <label className={cls.Switch} htmlFor="themeSwitcher">
+    <div className={cn(styles.ThemeSwitcher, className)} data-testid="ThemeSwitcher">
+      <label className={styles.Switch} htmlFor="themeSwitcher">
         Switch Theme
-        <input className={cls.Input} type="checkbox" id="themeSwitcher" onChange={setNewTheme} />
-        <span className={`${cls.Slider} ${cls.Round}`} />
+        <input className={styles.Input} type="checkbox" id="themeSwitcher" onChange={setNewTheme} />
+        <span className={cn(styles.Slider, styles.Round)} />
       </label>
     </div>
   );

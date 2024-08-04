@@ -12,7 +12,7 @@ import { useGetAllPockemonsQuery, useGetPockemonQuery } from '../../store/api';
 import { useFavouritesSelector } from '../../store/favourites';
 import Flyout from '../../components/Flyout/Flyout';
 
-import * as cls from './Home.module.css';
+import * as styles from './Home.module.css';
 
 function Home() {
   const favourites = useFavouritesSelector();
@@ -38,24 +38,24 @@ function Home() {
 
   return (
     <>
-      <header className={cls.Header}>
+      <header className={styles.Header}>
         <div className="container">
-          <Search className={cls.Search} />
+          <Search className={styles.Search} />
           <ThemeSwitcher />
         </div>
       </header>
-      <main className={cls.Main} data-testid="main">
+      <main className={styles.Main} data-testid="main">
         {!query && (
           <>
             <div className="container">
               {isFetchingPockemons && <Loader />}
               {isErrorPockemons && <ErrorNotification message={"Can't load pockemons"} />}
               {!isFetchingPockemons && isSuccessPockemons && (
-                <div className={cls.Pockemon}>
-                  <div className={cls.Pockemon__main}>
+                <div className={styles.Pockemon}>
+                  <div className={styles.PockemonMain}>
                     <List items={pockemons?.results} />
                   </div>
-                  <aside className={cls.Pockemon__aside}>
+                  <aside className={styles.PockemonAside}>
                     <Suspense fallback={<Loader />}>
                       <Outlet />
                     </Suspense>
@@ -76,11 +76,11 @@ function Home() {
             {isFetchingOnePockemon && <Loader />}
             {isErrorOnePockemon && <ErrorNotification message={"Can't load pockemon"} />}
             {!isFetchingOnePockemon && isSuccessrOnePockemon && (
-              <div className={cls.Pockemon}>
-                <div className={cls.Pockemon__main}>
+              <div className={styles.Pockemon}>
+                <div className={styles.PockemonMain}>
                   <List items={[onePockemon]} />
                 </div>
-                <aside className={cls.Pockemon__aside}>
+                <aside className={styles.PockemonAside}>
                   <Suspense fallback={<Loader />}>
                     <Outlet />
                   </Suspense>

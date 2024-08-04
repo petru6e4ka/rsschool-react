@@ -22,11 +22,11 @@
   width: 100%;
 }
 
-.Pockemon__main {
+.PockemonMain {
   flex: 1;
 }
 
-.Pockemon__aside {
+.PockemonAside {
   height: 100%;
   max-width: 500px;
 }

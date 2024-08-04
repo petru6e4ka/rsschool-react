@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import cn from 'classnames';
 import { Pockemon } from '../../types/Pockemon';
 import ListItem from './ListItem';
 
-import * as cls from './List.module.css';
+import * as styles from './List.module.css';
 
 type Props = {
   items: Pockemon[];
@@ -22,7 +23,7 @@ function List({ items }: Props) {
   }
 
   return (
-    <ul className={`${cls.List} ${isPartWidth ? cls.ListPart : cls.ListFull}`} data-testid="list">
+    <ul className={cn(styles.List, { [styles.ListPart]: isPartWidth })} data-testid="list">
       {items.map((item) => (
         <ListItem item={item} key={item.name} />
       ))}

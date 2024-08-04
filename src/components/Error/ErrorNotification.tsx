@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import * as cls from './ErrorNotification.module.css';
+import * as styles from './ErrorNotification.module.css';
 
 type Props = {
   message?: string;
@@ -24,9 +24,9 @@ function ErrorNotification({ message = '' }: Props) {
   };
 
   return isShowing ? (
-    <div className={cls.Error__container} data-testid="error-notification">
+    <div className={styles.ErrorContainer} data-testid="error-notification">
       <h3>{message ? `Error! ${message}` : 'Something went wrong!'}</h3>
-      <button className={cls.Error__btn} type="button" onClick={closeSearch}>
+      <button className={styles.ErrorBtn} type="button" onClick={closeSearch}>
         +
       </button>
     </div>

@@ -5,7 +5,7 @@
   margin-bottom: 50px;
 }
 
-.Pagination__list {
+.PaginationList {
   display: flex;
   align-items: baseline;
   gap: 10px;
@@ -14,16 +14,16 @@
   flex: 1;
 }
 
-.Pagination__item {
+.PaginationItem {
   display: inline-flex;
   justify-content: center;
 }
 
-.Pagination__empty {
+.PaginationEmpty {
   flex: 1;
   text-align: center;
 }
 
-.Pagination__active {
+.PaginationActive {
   background-color: var(--accent);
 }
