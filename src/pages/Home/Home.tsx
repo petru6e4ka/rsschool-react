@@ -1,6 +1,8 @@
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query';
+import cn from 'classnames';
+import { AnimatePresence } from 'framer-motion';
 import ErrorNotification from '../../components/Error/ErrorNotification';
 import Search from '../../components/Search/Search';
 import List from '../../components/List/List';
@@ -8,9 +10,10 @@ import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
 import { DEFAULT_LIMIT } from '../../services/api/api';
 import ThemeSwitcher from '../../providers/theme/ThemeSwitcher/ThemeSwitcher';
-import { useGetAllPockemonsQuery, useGetPockemonQuery } from '../../store/api';
+import { useGetPockemonsByPageQuery, useGetPockemonQuery } from '../../store/api';
 import { useFavouritesSelector } from '../../store/favourites';
 import Flyout from '../../components/Flyout/Flyout';
+import Menu from '../../components/Menu/Menu';
 
 import * as styles from './Home.module.css';
 
@@ -22,12 +25,14 @@ function Home() {
   const page = searchParams.get('page') || 1;
   const query = searchParams.get('query') || '';
 
+  const [isOpenedMenu, setIsOpenedMenu] = useState(false);
+
   const {
     data: pockemons,
     isError: isErrorPockemons,
     isSuccess: isSuccessPockemons,
     isFetching: isFetchingPockemons,
-  } = useGetAllPockemonsQuery({ skip: (Number(page) - 1) * DEFAULT_LIMIT });
+  } = useGetPockemonsByPageQuery({ skip: (Number(page) - 1) * DEFAULT_LIMIT });
 
   const {
     data: onePockemon,
@@ -41,10 +46,26 @@ function Home() {
       <header className={styles.Header}>
         <div className="container">
           <Search className={styles.Search} />
-          <ThemeSwitcher />
+          <ThemeSwitcher className={styles.ThemeSwitcher} />
+          <button
+            className={cn(styles.Menu, { [styles.Open]: isOpenedMenu })}
+            type="button"
+            onClick={() => {
+              setIsOpenedMenu((prev) => !prev);
+            }}
+            role="tab"
+            aria-label="open menu"
+          >
+            <span className={styles.MenuLine} />
+            <span className={styles.MenuLine} />
+            <span className={styles.MenuLine} />
+            <span className={styles.MenuLine} />
+          </button>
         </div>
       </header>
-      <main className={styles.Main} data-testid="main">
+      <main className={cn(styles.Main, { [styles.MenuOpened]: isOpenedMenu })} data-testid="main">
+        <AnimatePresence>{isOpenedMenu && <Menu />}</AnimatePresence>
+
         {!query && (
           <>
             <div className="container">

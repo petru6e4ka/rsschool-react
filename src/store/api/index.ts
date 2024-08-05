@@ -12,15 +12,23 @@ export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   endpoints: (builder) => ({
-    getAllPockemons: builder.query<{ results: Pockemon[] }, DefaultParams>({
+    getPockemonsByPage: builder.query<{ results: Pockemon[] }, DefaultParams>({
       query: (params: DefaultParams = {}) => `?offset=${params.skip || DEFAULT_SKIP}&limit=${params.limit || DEFAULT_LIMIT}`,
     }),
     getPockemon: builder.query<Pockemon, string>({
       query: (query: string) => query,
     }),
+    getAllPockemons: builder.query<{ results: Pockemon[] }, void>({
+      query: () => `?offset=0&limit=${TOTAL}`,
+    }),
   }),
 });
 
 export const {
-  useGetAllPockemonsQuery, useLazyGetPockemonQuery, useLazyGetAllPockemonsQuery, useGetPockemonQuery,
+  useGetPockemonsByPageQuery,
+  useLazyGetPockemonQuery,
+  useLazyGetPockemonsByPageQuery,
+  useGetPockemonQuery,
+  useGetAllPockemonsQuery,
+  useLazyGetAllPockemonsQuery,
 } = pokemonApi;

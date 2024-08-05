@@ -1,13 +1,3 @@
-@keyframes disappearing {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
 .ErrorContainer {
   position: absolute;
   top: 50px;
@@ -19,11 +9,6 @@
   padding: 0.8em 0.8em 0.8em 1.6em;
   background: rgba(255, 0, 0, 0.2);
   border-radius: 8px;
-  animation: disappearing 3s;
-}
-
-.ErrorContainer:hover {
-  animation-play-state: paused;
 }
 
 .ErrorBtn {

@@ -15,3 +15,19 @@
 .ListPart {
   width: calc(100% - 50px);
 }
+
+@media only screen and (max-width: 1024px) {
+  .List {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ListPart {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .List {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

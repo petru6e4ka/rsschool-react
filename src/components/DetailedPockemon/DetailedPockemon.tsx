@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useGetPockemonQuery } from '../../store/api';
 import Loader from '../Loader/Loader';
 
@@ -18,29 +19,40 @@ function DetailedPockemon() {
   }
 
   return (
-    <div data-testid="pockemon-info">
-      <h2 className={styles.PockemonInfo}>
-        Name:
-        <br />
-        {data?.name.toUpperCase()}
-      </h2>
-      <img src={data?.sprites?.front_default} alt={data?.name} />
-      <div>
-        Abilities:
-        <br />
-        <ul>{data?.abilities?.map((ability) => <li key={ability.ability.name}>{ability.ability.name}</li>)}</ul>
-      </div>
-      <p className={styles.PockemonInfo}>
-        Height:
-        <br />
-        {data?.height}
-      </p>
-      <p className={styles.PockemonInfo}>
-        Weight:
-        <br />
-        {data?.weight}
-      </p>
-    </div>
+    <AnimatePresence>
+      <motion.div
+        data-testid="pockemon-info"
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.5,
+          ease: [0, 0.71, 0.2, 1.01],
+        }}
+      >
+        <h2 className={styles.PockemonInfo}>
+          Name:
+          <br />
+          {data?.name.toUpperCase()}
+        </h2>
+        <img src={data?.sprites?.front_default} alt={data?.name} />
+        <div>
+          Abilities:
+          <br />
+          <ul>{data?.abilities?.map((ability) => <li key={ability.ability.name}>{ability.ability.name}</li>)}</ul>
+        </div>
+        <p className={styles.PockemonInfo}>
+          Height:
+          <br />
+          {data?.height}
+        </p>
+        <p className={styles.PockemonInfo}>
+          Weight:
+          <br />
+          {data?.weight}
+        </p>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 

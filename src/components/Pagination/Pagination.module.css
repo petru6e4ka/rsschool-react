@@ -27,3 +27,10 @@
 .PaginationActive {
   background-color: var(--accent);
 }
+
+@media only screen and (max-width: 768px) {
+  .Pagination {
+    min-width: auto;
+    font-size: 0.8rem;
+  }
+}

@@ -1,15 +1,10 @@
 import { CSVLink } from 'react-csv';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useActions } from '../../hooks/useActions';
 import { useFavouritesSelector } from '../../store/favourites';
 
 import * as styles from './Flyout.module.css';
-
-const headers = [
-  { label: 'Pockemon Name', key: 'name' },
-  { label: 'Abilities', key: 'abilities' },
-  { label: 'Height', key: 'height' },
-  { label: 'Weight', key: 'weight' },
-];
+import { headers } from './headers';
 
 function Flyout() {
   const favourites = useFavouritesSelector();
@@ -20,17 +15,25 @@ function Flyout() {
   };
 
   return (
-    <div className={styles.Flyout} data-testid="flyout">
-      <span>{`Favourites: ${favourites.length}`}</span>
-      <button type="button" onClick={removeFavourites}>
-        Remove All
-      </button>
-      {favourites.length > 0 && (
-        <CSVLink className="button" data={favourites} filename={`${favourites.length}_pockemons.csv`} headers={headers}>
-          Download CSV
-        </CSVLink>
-      )}
-    </div>
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, right: '-100px' }}
+        animate={{ opacity: 1, right: '0px' }}
+        exit={{ opacity: 0, right: '-100px' }}
+        className={styles.Flyout}
+        data-testid="flyout"
+      >
+        <span>{`Favourites: ${favourites.length}`}</span>
+        <button type="button" onClick={removeFavourites}>
+          Remove All
+        </button>
+        {favourites.length > 0 && (
+          <CSVLink className="button" data={favourites} filename={`${favourites.length}_pockemons.csv`} headers={headers}>
+            Download CSV
+          </CSVLink>
+        )}
+      </motion.div>
+    </AnimatePresence>
   );
 }
 

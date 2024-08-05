@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { AnimatePresence, motion } from 'framer-motion';
 import * as styles from './ErrorNotification.module.css';
 
 type Props = {
@@ -23,14 +23,24 @@ function ErrorNotification({ message = '' }: Props) {
     setIsShowing(false);
   };
 
-  return isShowing ? (
-    <div className={styles.ErrorContainer} data-testid="error-notification">
-      <h3>{message ? `Error! ${message}` : 'Something went wrong!'}</h3>
-      <button className={styles.ErrorBtn} type="button" onClick={closeSearch}>
-        +
-      </button>
-    </div>
-  ) : null;
+  return (
+    <AnimatePresence>
+      {isShowing ? (
+        <motion.div
+          initial={{ opacity: 0, right: '-100px' }}
+          animate={{ opacity: 1, right: '0px' }}
+          exit={{ opacity: 0, right: '-100px' }}
+          className={styles.ErrorContainer}
+          data-testid="error-notification"
+        >
+          <h3>{message ? `Error! ${message}` : 'Something went wrong!'}</h3>
+          <button className={styles.ErrorBtn} type="button" onClick={closeSearch}>
+            +
+          </button>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
+  );
 }
 
 export default ErrorNotification;

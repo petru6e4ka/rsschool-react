@@ -51,7 +51,16 @@ function Search({ className = '' }: { className?: string }) {
 
   return (
     <div className={cn(styles.Search, className)} data-testid="search">
-      <input className={styles.SearchInput} type="text" name="search" id="search" value={query} onChange={updateSearch} data-testid="search-input" />
+      <input
+        className={styles.SearchInput}
+        type="text"
+        name="search"
+        id="search"
+        value={query}
+        onChange={updateSearch}
+        data-testid="search-input"
+        placeholder="Search Pockemon"
+      />
       <button type="button" onClick={getSearchResults} data-testid="search-btn">
         Search
       </button>
