@@ -1,5 +1,6 @@
 import { CSVLink } from 'react-csv';
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import { useActions } from '../../hooks/useActions';
 import ThemeSwitcher from '../../providers/theme/ThemeSwitcher/ThemeSwitcher';
 import { useFavouritesSelector } from '../../store/favourites';
@@ -8,11 +9,11 @@ import AutoComplete from '../AutoComplete/AutoComplete';
 import { useSearchSelector } from '../../store/search';
 import { useGetAllPockemonsQuery } from '../../store/api';
 import * as styles from './Menu.module.css';
-import { useSearchParams } from 'react-router-dom';
+import { Pockemon } from '../../types/Pockemon';
 
 function Menu() {
   const search = useSearchSelector();
-  const [_, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const favourites = useFavouritesSelector();
   const { resetFavourites, addSearch } = useActions();
@@ -58,10 +59,10 @@ function Menu() {
             placeholder="Search Pockemon"
             name="Search"
             value={search}
-            searcher={'name'}
+            searcher="name"
             onChange={changeSearch}
             onSubmit={submitSearch}
-            list={isSuccessPockemons ? pockemons.results : []}
+            list={isSuccessPockemons ? pockemons.results : ([] as Pockemon[])}
           />
         </div>
 

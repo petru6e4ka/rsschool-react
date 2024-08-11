@@ -1,23 +1,27 @@
-import { ChangeEventHandler, FocusEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ChangeEventHandler, FocusEventHandler, useCallback, useEffect, useMemo, useRef, useState,
+} from 'react';
 import * as styles from './AutoComplete.module.css';
-import useClickOutside from '../../hooks/useClickOutside';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import useDebounceCall from '../../hooks/useDebounceCall';
 
-type Props = {
+type Props<TList extends object> = {
   placeholder: string;
   name: string;
   value: string;
-  searcher: string;
-  list: Array<Record<string, any>>;
+  searcher: keyof TList;
+  list: Array<TList>;
   onChange: (val: string) => void;
   onSubmit: (val: string) => void;
 };
 
-function AutoComplete({ placeholder, name, searcher, value = '', onChange: onUpdate, onSubmit, list }: Props) {
+function AutoComplete<TList extends object>({
+  placeholder, name, searcher, value = '', onChange: onUpdate, onSubmit, list,
+}: Props<TList>) {
   const [isOpened, setIsOpened] = useState(false);
-  const _value = useMemo(() => value, [value]);
+  const savedValue = useMemo(() => value, [value]);
 
-  const [text, setText] = useState(_value || '');
+  const [text, setText] = useState(savedValue || '');
   const [currentItem, setCurrentItem] = useState(list.find((elem) => elem[searcher] === value) || null);
 
   const onChangeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -37,8 +41,8 @@ function AutoComplete({ placeholder, name, searcher, value = '', onChange: onUpd
   };
 
   useEffect(() => {
-    if (!isOpened) setText(_value || '');
-  }, [_value, isOpened]);
+    if (!isOpened) setText(savedValue || '');
+  }, [savedValue, isOpened]);
 
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -56,8 +60,8 @@ function AutoComplete({ placeholder, name, searcher, value = '', onChange: onUpd
   };
 
   useEffect(() => {
-    setCurrentItem(list.find((elem) => elem[searcher] === _value) || null);
-  }, [_value]);
+    setCurrentItem(list.find((elem) => elem[searcher] === savedValue) || null);
+  }, [savedValue]);
 
   const onItemClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -70,9 +74,7 @@ function AutoComplete({ placeholder, name, searcher, value = '', onChange: onUpd
 
   const debouncedInputValue = useDebounceCall(text, 500);
 
-  const filteredList = useMemo(() => {
-    return list.filter((elem) => elem.name.includes(debouncedInputValue));
-  }, [debouncedInputValue]);
+  const filteredList = useMemo(() => list.filter((elem) => (elem[searcher] as string).includes(debouncedInputValue)), [debouncedInputValue]);
 
   return (
     <div className={styles.Autocomplete}>
@@ -99,13 +101,23 @@ function AutoComplete({ placeholder, name, searcher, value = '', onChange: onUpd
       {isOpened && (
         <div ref={listRef} className={styles.AutocompleteList}>
           <ul>
-            {filteredList.map((item) => (
-              <li key={item.name}>
-                <button className={styles.ListBtn} value={item.name} onClick={onItemClick} disabled={currentItem?.name === item.name}>
-                  {item.name}
-                </button>
-              </li>
-            ))}
+            {filteredList.length > 0 ? filteredList.map((item) => {
+              const key: string = item[searcher] as string;
+
+              return (
+                <li key={key}>
+                  <button
+                    className={styles.ListBtn}
+                    value={key}
+                    onClick={onItemClick}
+                    disabled={currentItem ? currentItem[searcher] === key : false}
+                    type="button"
+                  >
+                    {key}
+                  </button>
+                </li>
+              );
+            }) : <li>No matches found</li>}
           </ul>
         </div>
       )}

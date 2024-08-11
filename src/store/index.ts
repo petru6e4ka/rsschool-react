@@ -1,6 +1,10 @@
-import { combineReducers, configureStore, EnhancedStore, StoreEnhancer, ThunkDispatch, Tuple, UnknownAction } from '@reduxjs/toolkit';
+import {
+  combineReducers, configureStore, EnhancedStore, StoreEnhancer, ThunkDispatch, Tuple, UnknownAction,
+} from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
-import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import {
+  FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE,
+} from 'redux-persist';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { favouritesReducer, FavouritesInitialState } from './favourites';
 import { pokemonApi } from './api';
@@ -21,33 +25,32 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store: EnhancedStore<
-  {
-    favourites: FavouritesInitialState;
-  },
-  UnknownAction,
-  Tuple<
-    [
-      StoreEnhancer<{
-        dispatch: ThunkDispatch<
-          {
-            favourites: FavouritesInitialState;
-          },
-          undefined,
-          UnknownAction
-        >;
-      }>,
-      StoreEnhancer,
-    ]
-  >
+{
+  favourites: FavouritesInitialState;
+},
+UnknownAction,
+Tuple<
+[
+  StoreEnhancer<{
+    dispatch: ThunkDispatch<
+    {
+      favourites: FavouritesInitialState;
+    },
+    undefined,
+    UnknownAction
+    >;
+  }>,
+  StoreEnhancer,
+]
+>
 > = configureStore({
   reducer: persistedReducer,
   devTools: true,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(pokemonApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }).concat(pokemonApi.middleware),
 });
 
 export const persistor = persistStore(store);
@@ -61,8 +64,7 @@ export type AppDispatch = AppStore['dispatch'];
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const setupStore = (preloadedState?: Partial<RootState>) =>
-  configureStore({
-    reducer: rootReducer,
-    preloadedState,
-  });
+export const setupStore = (preloadedState?: Partial<RootState>) => configureStore({
+  reducer: rootReducer,
+  preloadedState,
+});

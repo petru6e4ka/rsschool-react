@@ -103,11 +103,6 @@
   width: 0px;
 }
 
-.MenuOpened {
-  height: calc(100vh - 100px - 70px);
-  overflow: hidden;
-}
-
 .Menu {
   display: none;
 }
@@ -123,5 +118,10 @@
 
   .Menu {
     display: inline-flex;
+  }
+
+  .MenuOpened {
+    height: calc(100vh - 100px - 70px);
+    overflow: hidden;
   }
 }
