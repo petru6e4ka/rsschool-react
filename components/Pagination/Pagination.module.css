@@ -1,0 +1,42 @@
+.Pagination {
+  display: flex;
+  gap: 10px;
+  min-width: 400px;
+  margin-bottom: 50px;
+}
+
+.PaginationShort {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 50px;
+}
+
+.PaginationList {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  flex: 1;
+}
+
+.PaginationItem {
+  display: inline-flex;
+  justify-content: center;
+}
+
+.PaginationEmpty {
+  flex: 1;
+  text-align: center;
+}
+
+.PaginationActive {
+  background-color: var(--accent);
+}
+
+@media only screen and (max-width: 768px) {
+  .Pagination {
+    min-width: auto;
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,130 @@
+.Header {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 10px #000;
+}
+
+.Search {
+  flex: 1;
+  justify-content: center;
+}
+
+.Main {
+  min-height: calc(100vh - 150px - 70px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Pockemon {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.PockemonMain {
+  flex: 1;
+}
+
+.PockemonAside {
+  height: 100%;
+  max-width: 500px;
+}
+
+.Menu {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  width: 55px;
+  height: 55px;
+  padding: 10px;
+  margin-left: auto;
+  z-index: 1000;
+
+  transform: rotate(0deg);
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+
+  background: var(--bg);
+}
+
+.MenuLine {
+  display: block;
+  height: 2px;
+  width: 18px;
+
+  background-color: var(--accent);
+  border-radius: 6px;
+  opacity: 1;
+  transform: rotate(0deg);
+  transition: 0.25s ease-in-out;
+}
+.MenuLine:nth-child(2),
+.MenuLine:nth-child(3) {
+  position: absolute;
+}
+
+.Menu:hover .MenuLine:nth-child(1) {
+  width: 12px;
+}
+
+.Menu:hover .MenuLine:nth-child(4) {
+  width: 9px;
+}
+
+.Menu.Open .MenuLine:nth-child(1) {
+  top: 14px;
+  width: 0%;
+  left: 50%;
+}
+
+.Menu.Open .MenuLine:nth-child(2) {
+  transform: rotate(45deg);
+}
+
+.Menu.Open .MenuLine:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+.Menu.Open .MenuLine:nth-child(4) {
+  top: 10px;
+  width: 0%;
+  left: 50%;
+}
+
+.Menu.Open:hover .MenuLine:nth-child(1) {
+  width: 0px;
+}
+
+.Menu.Open:hover .MenuLine:nth-child(4) {
+  width: 0px;
+}
+
+.Menu {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .Search {
+    display: none;
+  }
+
+  .ThemeSwitcher {
+    display: none;
+  }
+
+  .Menu {
+    display: inline-flex;
+  }
+
+  .MenuOpened {
+    height: calc(100vh - 150px - 70px);
+    overflow: hidden;
+  }
+}
