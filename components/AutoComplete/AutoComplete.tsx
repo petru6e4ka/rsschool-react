@@ -1,9 +1,10 @@
 import {
-  ChangeEventHandler, FocusEventHandler, useCallback, useEffect, useMemo, useRef, useState,
+  ChangeEventHandler, FocusEventHandler, MouseEventHandler, useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { useDebounceCall } from '@/hooks/useDebounceCall';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import cn from 'classnames';
+import { useKeyboardShortcut } from '@/hooks/useKeyPress';
 import * as styles from './AutoComplete.module.css';
 
 type Props<TList extends object> = {
@@ -28,6 +29,7 @@ function AutoComplete<TList extends object>({
   list,
 }: Props<TList>) {
   const [isOpened, setIsOpened] = useState(false);
+  const [listItemHovered, setListItemHovered] = useState('');
   const savedValue = useMemo(() => value, [value]);
 
   const [text, setText] = useState(savedValue || '');
@@ -37,8 +39,9 @@ function AutoComplete<TList extends object>({
     (e) => {
       setText(e.target.value);
       onUpdate(e.target.value);
+      setIsOpened(true);
     },
-    [onUpdate, setText],
+    [onUpdate, setText, setIsOpened],
   );
 
   const onBlurHandler: FocusEventHandler<HTMLInputElement> = () => {
@@ -92,12 +95,52 @@ function AutoComplete<TList extends object>({
     return list;
   }, [debouncedInputValue]);
 
+  const onHover: MouseEventHandler<HTMLButtonElement> = (event) => {
+    const button = event.target as HTMLButtonElement;
+    setListItemHovered(button.value);
+  };
+
+  const onHoverLeave: MouseEventHandler<HTMLButtonElement> = () => {
+    setListItemHovered('');
+  };
+
+  const closeOnEscape = () => {
+    if (isOpened) {
+      setIsOpened(false);
+      return;
+    }
+
+    onUpdate('');
+    onSubmit('');
+  };
+
+  const submitOnEnter = () => {
+    if (isOpened && listItemHovered) {
+      onSubmit(listItemHovered);
+      setIsOpened(false);
+      return;
+    }
+
+    if (isOpened && !listItemHovered) {
+      setIsOpened(false);
+      return;
+    }
+
+    if (!isOpened) {
+      onSubmit(text);
+    }
+  };
+
+  useKeyboardShortcut({ key: 'Escape', onKeyPressed: closeOnEscape, deps: [isOpened, setIsOpened, onSubmit, onUpdate] });
+  useKeyboardShortcut({ key: 'Enter', onKeyPressed: submitOnEnter, deps: [isOpened, listItemHovered, onSubmit, setIsOpened] });
+
   return (
     <div className={cn(styles.Autocomplete, className)}>
       <div className={styles.InputContainer}>
         <input
           value={text}
           type="text"
+          autoComplete="off"
           name={name}
           id={name}
           placeholder={placeholder}
@@ -127,6 +170,8 @@ function AutoComplete<TList extends object>({
                       className={styles.ListBtn}
                       value={key}
                       onClick={onItemClick}
+                      onMouseEnter={onHover}
+                      onMouseLeave={onHoverLeave}
                       disabled={currentItem ? currentItem[searcher] === key : false}
                       type="button"
                     >
