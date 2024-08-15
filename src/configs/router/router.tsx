@@ -1,51 +1,50 @@
 import { RouteObject } from 'react-router-dom';
 import { Suspense } from 'react';
-import Home from '../../pages/Home/HomeLazy';
 import NotFound from '../../pages/404/NotFoundLazy';
-import Aside from '../../components/Aside/AsideLazy';
 import Loader from '../../components/Loader/Loader';
+import { ReactHookForm } from '../../components/ReactHookForm/ReactHookForm';
+import { UncontrolledForm } from '../../components/UncontrolledForm/UncontrolledForm';
+import { Main } from '../../components/Main/Main';
 
 export enum AppRoutes {
-  HOME = 'home',
-  POCKEMON = 'pockemon',
-  POCKEMON_ABOUT = 'pockemon_about',
+  MAIN = 'main',
+  UNCONTROLLED = 'uncontrolled',
+  REACT_HOOK = 'react_hook',
   NOT_FOUND = 'not_found',
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
-  [AppRoutes.HOME]: '/',
-  [AppRoutes.POCKEMON]: 'pockemon',
-  [AppRoutes.POCKEMON_ABOUT]: ':pockemon',
+  [AppRoutes.MAIN]: '/',
+  [AppRoutes.UNCONTROLLED]: 'uncontrolled',
+  [AppRoutes.REACT_HOOK]: 'react_hook',
   [AppRoutes.NOT_FOUND]: '*',
 };
 
 export const routes: RouteObject[] = [
   {
-    path: RoutePath.home,
+    path: RoutePath.main,
     index: true,
     element: (
       <Suspense fallback={<Loader />}>
-        <Home />
+        <Main />
       </Suspense>
     ),
   },
   {
-    path: RoutePath.pockemon,
+    path: RoutePath.uncontrolled,
     element: (
       <Suspense fallback={<Loader />}>
-        <Home />
+        <UncontrolledForm />
       </Suspense>
     ),
-    children: [
-      {
-        path: RoutePath.pockemon_about,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Aside />
-          </Suspense>
-        ),
-      },
-    ],
+  },
+  {
+    path: RoutePath.react_hook,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <ReactHookForm />
+      </Suspense>
+    ),
   },
   {
     path: RoutePath.not_found,

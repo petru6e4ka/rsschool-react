@@ -1,12 +1,4 @@
-.wrapper.dark {
-  --accent: #646cff;
-  --accent-darker: #535bf2;
-  --bg: #303030;
-  --color: rgba(255, 255, 255, 0.87);
-  --button: #1a1a1a;
-}
-
-.wrapper.light {
+.wrapper {
   --accent: #f86800;
   --accent-darker: #dc5e03;
   --bg: #eaeaea;
