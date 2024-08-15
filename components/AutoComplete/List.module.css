@@ -1,0 +1,38 @@
+.List {
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  max-height: 200px;
+  padding: 20px 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--button);
+  border-radius: 8px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.ListBtn {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.ListBtn:focus,
+.Selected {
+  border-color: var(--bg);
+  outline: none;
+}
+
+.ListBtn:hover,
+.ListBtn.Hover {
+  outline: none;
+  border-color: transparent;
+  background-color: var(--bg);
+}
+
+.ListBtn:disabled {
+  outline: none;
+  border-color: var(--bg);
+  background-color: transparent;
+  pointer-events: none;
+}

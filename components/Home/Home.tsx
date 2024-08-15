@@ -49,17 +49,15 @@ export default function Home({ children }: { children?: ReactNode }) {
   const { addSearch } = useActions();
 
   const changeSearch = (newValue: string) => {
-    addSearch(newValue);
-  };
-
-  const submitSearch = (val: string) => {
-    const toSearch = val.trim().toLowerCase();
+    const toSearch = newValue.trim().toLowerCase();
 
     if (toSearch) {
+      addSearch(toSearch);
       router.push(`${pathname}${searchParamsUpdate('query', toSearch, new URLSearchParams(''))}`);
       return;
     }
 
+    addSearch('');
     router.push(`${pathname}`);
   };
 
@@ -91,7 +89,6 @@ export default function Home({ children }: { children?: ReactNode }) {
                 value={search}
                 searcher="name"
                 onChange={changeSearch}
-                onSubmit={submitSearch}
                 list={allpockemons.results}
               />
             )}
