@@ -25,17 +25,15 @@ function Menu() {
   };
 
   const changeSearch = (newValue: string) => {
-    addSearch(newValue);
-  };
-
-  const submitSearch = (query: string) => {
-    const toSearch = query.trim().toLowerCase();
+    const toSearch = newValue.trim().toLowerCase();
 
     if (toSearch) {
-      router.push(`${pathname}${searchParamsUpdate('query', toSearch, searchParams)}`);
+      addSearch(toSearch);
+      router.push(`${pathname}${searchParamsUpdate('query', toSearch, new URLSearchParams(''))}`);
       return;
     }
 
+    addSearch('');
     router.push(`${pathname}`);
   };
 
@@ -58,7 +56,6 @@ function Menu() {
             value={search}
             searcher="name"
             onChange={changeSearch}
-            onSubmit={submitSearch}
             list={isSuccessPockemons ? pockemons.results : ([] as Pockemon[])}
           />
         </div>
