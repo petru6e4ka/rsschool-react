@@ -1,0 +1,120 @@
+import { Suspense, useState } from 'react';
+import { Outlet, useSearchParams } from 'react-router-dom';
+import { skipToken } from '@reduxjs/toolkit/query';
+import cn from 'classnames';
+import { AnimatePresence } from 'framer-motion';
+import ErrorNotification from '../../components/Error/ErrorNotification';
+import Search from '../../components/Search/Search';
+import List from '../../components/List/List';
+import Loader from '../../components/Loader/Loader';
+import Pagination from '../../components/Pagination/Pagination';
+import { DEFAULT_LIMIT } from '../../services/api/api';
+import ThemeSwitcher from '../../providers/theme/ThemeSwitcher/ThemeSwitcher';
+import { useGetPockemonsByPageQuery, useGetPockemonQuery } from '../../store/api';
+import { useFavouritesSelector } from '../../store/favourites';
+import Flyout from '../../components/Flyout/Flyout';
+import Menu from '../../components/Menu/Menu';
+
+import * as styles from './Home.module.css';
+
+function Home() {
+  const favourites = useFavouritesSelector();
+
+  const [searchParams] = useSearchParams();
+
+  const page = searchParams.get('page') || 1;
+  const query = searchParams.get('query') || '';
+
+  const [isOpenedMenu, setIsOpenedMenu] = useState(false);
+
+  const {
+    data: pockemons,
+    isError: isErrorPockemons,
+    isSuccess: isSuccessPockemons,
+    isFetching: isFetchingPockemons,
+  } = useGetPockemonsByPageQuery({ skip: (Number(page) - 1) * DEFAULT_LIMIT });
+
+  const {
+    data: onePockemon,
+    isError: isErrorOnePockemon,
+    isSuccess: isSuccessrOnePockemon,
+    isFetching: isFetchingOnePockemon,
+  } = useGetPockemonQuery(query || skipToken);
+
+  return (
+    <>
+      <header className={styles.Header}>
+        <div className="container">
+          <Search className={styles.Search} />
+          <ThemeSwitcher className={styles.ThemeSwitcher} />
+          <button
+            className={cn(styles.Menu, { [styles.Open]: isOpenedMenu })}
+            type="button"
+            onClick={() => {
+              setIsOpenedMenu((prev) => !prev);
+            }}
+            role="tab"
+            aria-label="open menu"
+          >
+            <span className={styles.MenuLine} />
+            <span className={styles.MenuLine} />
+            <span className={styles.MenuLine} />
+            <span className={styles.MenuLine} />
+          </button>
+        </div>
+      </header>
+      <main className={cn(styles.Main, { [styles.MenuOpened]: isOpenedMenu })} data-testid="main">
+        <AnimatePresence>{isOpenedMenu && <Menu />}</AnimatePresence>
+
+        {!query && (
+          <>
+            <div className="container">
+              {isFetchingPockemons && <Loader />}
+              {isErrorPockemons && <ErrorNotification message={"Can't load pockemons"} />}
+              {!isFetchingPockemons && isSuccessPockemons && (
+                <div className={styles.Pockemon}>
+                  <div className={styles.PockemonMain}>
+                    <List items={pockemons?.results} />
+                  </div>
+                  <aside className={styles.PockemonAside}>
+                    <Suspense fallback={<Loader />}>
+                      <Outlet />
+                    </Suspense>
+                  </aside>
+                </div>
+              )}
+            </div>
+            {!isFetchingPockemons && isSuccessPockemons && pockemons?.results.length > 0 && (
+              <div className="container">
+                <Pagination />
+              </div>
+            )}
+          </>
+        )}
+
+        {query && (
+          <div className="container">
+            {isFetchingOnePockemon && <Loader />}
+            {isErrorOnePockemon && <ErrorNotification message={"Can't load pockemon"} />}
+            {!isFetchingOnePockemon && isSuccessrOnePockemon && (
+              <div className={styles.Pockemon}>
+                <div className={styles.PockemonMain}>
+                  <List items={[onePockemon]} />
+                </div>
+                <aside className={styles.PockemonAside}>
+                  <Suspense fallback={<Loader />}>
+                    <Outlet />
+                  </Suspense>
+                </aside>
+              </div>
+            )}
+          </div>
+        )}
+
+        {favourites.length > 0 && <Flyout />}
+      </main>
+    </>
+  );
+}
+
+export default Home;

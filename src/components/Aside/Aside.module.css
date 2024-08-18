@@ -1,0 +1,51 @@
+.Aside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  padding: 30px;
+  min-height: 450px;
+  width: 400px;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: var(--bg);
+  z-index: 20;
+}
+
+.AsideClose {
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40px;
+  height: 40px;
+  padding: 0px 0 3px 0;
+
+  transform: rotate(45deg);
+  background: transparent;
+  border-radius: 50%;
+}
+
+.Backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+@media only screen and (max-width: 1024px) {
+  .Aside {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    right: 0;
+    transform: translateX(-50%);
+  }
+}

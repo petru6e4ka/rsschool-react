@@ -1,0 +1,49 @@
+.Menu {
+  position: fixed;
+  top: 0px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: var(--bg);
+  z-index: 500;
+  display: none;
+  overflow-y: auto;
+}
+
+.MenuContainer {
+  padding: 100px 15px;
+}
+
+.MenuBlock {
+  margin-bottom: 40px;
+}
+
+.Settings {
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.Accent {
+  color: var(--accent);
+  display: inline-block;
+  margin: 0 5px;
+  font-weight: bold;
+}
+
+.FavouritesActions {
+  display: flex;
+  gap: 9px;
+}
+
+.FavouritesActions * {
+  flex: 1;
+}
+
+@media only screen and (max-width: 768px) {
+  .Menu {
+    display: block;
+  }
+}
