@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { countriesReducer } from './countries';
+import { userReducer } from './form';
 
 const rootReducer = combineReducers({
   countries: countriesReducer,
+  user: userReducer,
 });
 
 export const store = configureStore({

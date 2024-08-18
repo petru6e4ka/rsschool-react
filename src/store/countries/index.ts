@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 export type Countries = string[];
 
-export const countriesInitialState: Countries = ['USA', 'UK', 'France', 'Germany', 'Hungary', 'Poland', 'China'];
+export const countriesInitialState: Countries = ['USA', 'UK', 'France', 'Germany', 'Canada'];
 
 export type RequestParams = string;
 

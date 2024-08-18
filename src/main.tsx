@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
-import PageError from './components/PageError/PageError';
+import PageError from './pages/PageError/PageError';
 import { store } from './store';
 
 import './index.css';

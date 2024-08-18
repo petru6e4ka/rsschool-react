@@ -10,7 +10,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:testing-library/react',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'postcss.config.js', 'tailwind.config.js'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', 'react-compiler', 'testing-library'],
   rules: {
@@ -29,6 +29,22 @@ module.exports = {
     ],
     'max-len': ['error', { code: 150 }],
     'no-spaced-func': 0,
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
+    'jsx-a11y/label-has-for': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
   },
   parserOptions: {
     ecmaVersion: 'latest',
