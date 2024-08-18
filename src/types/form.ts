@@ -26,5 +26,6 @@ export type User = {
   password: string;
   passwordRepeat: string;
   terms: boolean;
-  avatar: string;
+  avatar: string | File;
+  id?: string;
 };

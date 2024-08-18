@@ -46,6 +46,7 @@ export const AdditionalSchema = yup.object().shape({
   terms: yup.boolean().required({ terms: FormErrors.required }).isTrue({ terms: FormErrors.terms }),
   avatar: yup
     .mixed()
+    .required({ avatar: FormErrors.required })
     .test({
       message: () => ({ avatar: FormErrors.avatar.format }),
       test: (file) => allowedExtensions.includes((file as File)?.type),

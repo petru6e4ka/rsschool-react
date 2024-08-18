@@ -2,15 +2,22 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { countriesReducer } from './countries';
 import { userReducer } from './form';
+import { historyReducer } from './history';
+import { errorReducer } from './errors';
 
 const rootReducer = combineReducers({
   countries: countriesReducer,
   user: userReducer,
+  history: historyReducer,
+  errors: errorReducer,
 });
 
 export const store = configureStore({
   reducer: rootReducer,
   devTools: true,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 // Get the type of our store variable

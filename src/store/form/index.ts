@@ -17,11 +17,12 @@ const userSlice = createSlice({
     addRepeatPassword: (state, action) => ({ ...state, passwordRepeat: action.payload }),
     addTerms: (state, action) => ({ ...state, terms: action.payload }),
     addAvatar: (state, action) => ({ ...state, avatar: action.payload }),
+    resetForm: () => userInitialState,
   },
 });
 
 export const userReducer = userSlice.reducer;
 export const {
-  addName, addAge, addGender, addCountry, addEmail, addPassword, addRepeatPassword, addTerms, addAvatar,
+  addName, addAge, addGender, addCountry, addEmail, addPassword, addRepeatPassword, addTerms, addAvatar, resetForm,
 } = userSlice.actions;
 export const useUserSelector = () => useSelector((state: { user: User | null }) => state.user);

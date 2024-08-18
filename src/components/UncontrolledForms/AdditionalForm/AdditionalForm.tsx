@@ -1,12 +1,18 @@
-import { useRef, FormEvent, useState } from 'react';
-import { User } from '../../../types/form';
+import {
+  useRef, FormEvent, useState,
+} from 'react';
 import { AdditionalSchema } from '../../../configs/yup';
 
-type Props = {
-  onSubmit: ({ avatar, terms }: Partial<User>) => void;
+type PartialUser = {
+  terms?: boolean;
 };
 
-export function AdditionalForm({ onSubmit }: Props) {
+type Props = {
+  values: PartialUser;
+  onSubmit: ({ avatar, terms }: { avatar: File; terms: boolean }) => void;
+};
+
+export function AdditionalForm({ values, onSubmit }: Props) {
   const form = useRef(null);
 
   const [errors, setErrors] = useState<Array<Record<string, string>>>([]);
@@ -25,21 +31,15 @@ export function AdditionalForm({ onSubmit }: Props) {
         avatar,
       })
         .then(() => {
-          setErrors([]);
-          const reader = new FileReader();
-          reader.readAsDataURL(avatar);
-          reader.onload = () => {
-            onSubmit({
-              terms,
-              avatar: reader.result as string,
-            });
-          };
-          reader.onerror = () => {
-            setErrors([{ avatar: 'Can not process the file' }]);
-          };
+          onSubmit({
+            avatar,
+            terms,
+          });
         })
         .catch((res) => {
-          setErrors(res.errors);
+          if (res?.errors) {
+            setErrors(res.errors);
+          }
         });
     }
   };
@@ -84,7 +84,7 @@ export function AdditionalForm({ onSubmit }: Props) {
           focus:ring-yellow-300
             cursor-pointer"
             value="true"
-            defaultChecked={false}
+            defaultChecked={values.terms}
           />
           <label htmlFor="terms" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer">
             Accept terms and conditions

@@ -6,7 +6,7 @@ import { useUserSelector } from '../../store/form';
 import { AdditionalForm } from '../../components/UncontrolledForms/AdditionalForm/AdditionalForm';
 import { GeneralForm } from '../../components/UncontrolledForms/GeneralForm/GeneralForm';
 import { AuthForm } from '../../components/UncontrolledForms/AuthForm/AuthForm';
-import Stepper from '../../components/Stepper/Stepper';
+import { Stepper } from '../../components/Stepper/Stepper';
 import { Modal } from '../../components/Modal/Modal';
 import { AuthFormSuggestion } from '../../components/Modal/Content/AuthFormSuggestion';
 import { GeneralFormSuggestion } from '../../components/Modal/Content/GeneralFormSuggestion';
@@ -22,7 +22,19 @@ export function UncontrolledForm() {
   const { formParams } = useParams();
   const navigate = useNavigate();
   const {
-    addEmail, addPassword, addRepeatPassword, addName, addAge, addGender, addCountry, addAvatar, addTerms,
+    addEmail,
+    addPassword,
+    addRepeatPassword,
+    addName,
+    addAge,
+    addGender,
+    addCountry,
+    addAvatar,
+    addTerms,
+    resetForm,
+    addNewUser,
+    addNewError,
+    removeError,
   } = useActions();
   const user = useUserSelector();
 
@@ -64,9 +76,28 @@ export function UncontrolledForm() {
       return;
     }
 
-    navigate('/');
-    // push a user to the redux history
-    // remove prev user
+    try {
+      if (user.avatar) {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(user.avatar as File);
+        reader.onload = () => {
+          addNewUser({
+            ...user,
+            avatar: reader.result as string,
+          });
+          resetForm();
+          navigate('/');
+        };
+      }
+    } catch (err) {
+      const errorMessage = 'Something went wrong during the file reading. Please, try again';
+      addNewError(errorMessage);
+
+      setTimeout(() => {
+        removeError(errorMessage);
+      }, 1000);
+    }
   };
 
   switch (formParams) {
@@ -76,7 +107,7 @@ export function UncontrolledForm() {
           <div className="my-6 mx-auto max-w-[600px] w-full p-5">
             <Stepper steps={steps} active={steps[2]} />
           </div>
-          <AdditionalForm onSubmit={addAdditionalInfo} />
+          <AdditionalForm values={{ terms: user?.terms }} onSubmit={addAdditionalInfo} />
           {showModal && modalType === ModalType.AuthFail && (
             <Modal
               onSuccessText="Fill form"
@@ -129,8 +160,3 @@ export function UncontrolledForm() {
 }
 
 export default UncontrolledForm;
-
-// After submitting the form On successful form submission
-// redirect user to the main route with all the previously entered data.
-// Make an indication for a newly entered data on the main route
-// (e.g. show border in a different color for a few seconds, or a different background color)
